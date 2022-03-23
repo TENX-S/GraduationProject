@@ -1,0 +1,33 @@
+syntax = "proto3";
+
+option go_package = "github.com/TENX-S/backend/service/proto";
+
+package z.museum.post;
+
+service Post {
+    rpc OnQuery(PostRequest) returns (PostReply) {}
+}
+
+message PostRequest {
+    string id = 1;
+}
+
+message PostReply {
+    bool success = 1;
+    optional PostContent content = 2;
+    optional PostError error = 3;
+}
+
+message PostContent {
+    string name = 1;
+    string dynasty = 2;
+    string descr = 3;
+    string intro = 4;
+    string pic = 5;
+}
+
+enum PostError {
+    NONEXISTENT_POST = 0;
+    INVALID_POST_ID = 1;
+    UNKNOWN = 2;
+}

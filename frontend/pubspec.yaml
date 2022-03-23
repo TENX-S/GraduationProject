@@ -1,0 +1,38 @@
+name: frontend
+description: A new Flutter project.
+
+publish_to: 'none'
+
+version: 1.0.0+1
+
+environment:
+  sdk: ">=2.16.1 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  grpc: ^3.0.0
+  flutter_login: ^2.0.0-nullsafety.0
+  bottom_navy_bar : ^6.0.0
+  fluttertoast: ^8.0.6
+  email_validator: ^2.0.1
+  qr_code_scanner: ^0.7.0
+  cupertino_icons: ^1.0.2
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  flutter_lints: ^1.0.0
+
+flutter:
+
+  uses-material-design: true
+  fonts:
+    - family: FZFYSJW
+      fonts:
+        - asset: assets/fonts/FZFYSJW.ttf
+
+    - family: Vladimir
+      fonts:
+        - asset: assets/fonts/Vladimir.ttf

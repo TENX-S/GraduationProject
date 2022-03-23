@@ -1,0 +1,27 @@
+syntax = "proto3";
+
+option go_package = "github.com/TENX-S/backend/service/proto";
+
+package z.museum.auth;
+
+service Authenticate {
+  rpc OnLogin(AuthRequest) returns (AuthReply) {}
+  rpc OnSignUp(AuthRequest) returns (AuthReply) {}
+}
+
+message AuthRequest {
+  string name = 1;
+  string password = 2;
+}
+
+enum AuthError {
+  MISMATCHED_PASSWORD = 0;
+  NONEXISTENT_USER = 1;
+  DUPLICATED_NAME = 2;
+  UNKNOWN = 3;
+}
+
+message AuthReply {
+  bool success = 1;
+  optional AuthError error = 2;
+}

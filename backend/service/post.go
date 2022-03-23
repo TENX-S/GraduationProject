@@ -1,0 +1,41 @@
+package service
+
+import (
+	"context"
+	"fmt"
+
+	. "github.com/TENX-S/backend/common"
+	. "github.com/TENX-S/backend/model"
+	. "github.com/TENX-S/backend/service/proto"
+)
+
+type PostService struct {
+	UnimplementedPostServer
+}
+
+func (s *PostService) OnQuery(ctx context.Context, in *PostRequest) (*PostReply, error) {
+	var p Post
+	err := PostError_UNKNOWN
+	reply := &PostReply{Success: false, Content: nil, Error: &err}
+	res := p.Query(in.Id)
+
+	switch res {
+	case SUCCESS:
+		Logger.Printf("[POST:QUERY] [SUCCESS:%s]", in.Id)
+		reply = &PostReply{Success: true, Content: &PostContent{Name: p.Name, Dynasty: p.Dynasty, Descr: p.Descr, Intro: p.Intro, Pic: p.Pic}, Error: nil}
+		return reply, nil
+	case NONEXISTENT_POST:
+		Logger.Printf("[POST:QUERY] [FAIL:NONEXISTENT_POST:%s]", in.Id)
+		err = PostError_NONEXISTENT_POST
+		reply = &PostReply{Success: false, Content: nil, Error: &err}
+		return reply, nil
+	case INVALID_POST_ID:
+		Logger.Printf("[POST:QUERY] [FAIL:INVALID_POST_ID:%s]", in.Id)
+		err = PostError_INVALID_POST_ID
+		reply = &PostReply{Success: false, Content: nil, Error: &err}
+		return reply, nil
+	}
+
+	Logger.Fatal(fmt.Sprintf("[POST:QUERY] [FATAL:%s] [RES:%d]", in.Id, res))
+	return reply, nil
+}
