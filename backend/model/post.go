@@ -1,16 +1,17 @@
 package model
 
 import (
+	"bytes"
+	"context"
 	"database/sql"
 	"fmt"
-	"os"
-	"path/filepath"
 	str "strings"
 
 	. "github.com/TENX-S/backend/common"
 	"github.com/go-redis/redis/v8"
 	"github.com/google/uuid"
 	qrcode "github.com/skip2/go-qrcode"
+	"github.com/tencentyun/cos-go-sdk-v5"
 )
 
 type Post struct {
@@ -28,21 +29,19 @@ func (p *Post) PackedField() string {
 	return str.Join([]string{p.Name, p.Dynasty, p.Descr, p.Intro, p.Pic}, "|")
 }
 
-func (p *Post) GenQrCode() (err error) {
-	var png []byte
-	png, err = qrcode.Encode(p.Id.String(), qrcode.Highest, 512)
-	if err != nil {
-		return
+func (p *Post) GenQrCode() {
+	defer QRW.Done()
+	png, err := qrcode.Encode(p.Id.String(), qrcode.Highest, 512)
+	EC <- err
+
+	key := fmt.Sprintf("qrcode/%s.png", p.Name)
+	Logger.Printf("[POST] [UPLOADING:%s:%s]", p.Name, p.Id)
+	var res *cos.Response
+	res, err = COS_CLIENT.Object.Put(context.Background(), key, bytes.NewReader(png), nil)
+	EC <- err
+	if res.StatusCode != 200 {
+		EC <- fmt.Errorf("[POST] [UPLOAD:FAILED:%s:%s]", p.Name, p.Id)
 	}
-	f, err := os.OpenFile(filepath.Join("qrcodes", fmt.Sprintf("%s.png", p.Name)), os.O_CREATE|os.O_TRUNC|os.O_WRONLY, 0644)
-	if err != nil {
-		return
-	}
-	_, err = f.Write(png)
-	if err != nil {
-		return
-	}
-	return
 }
 
 func (p *Post) Query(id string) (res int) {

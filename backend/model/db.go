@@ -26,13 +26,15 @@ var DB *sqlx.DB
 var KV *redis.Client
 var BG context.Context
 var EC = make(chan error)
-var PC = make(chan Post, 100)
+var PC = make(chan Post, 1000)
 var PW sync.WaitGroup
+var QRW sync.WaitGroup
 var COS_CLIENT *cos.Client
 
 func init() {
-	defer Logger.Info("Data initialization is complete")
+	defer Logger.Info("[SERVICE] [INITIALIZATION COMPLETED]")
 	defer close(EC)
+	defer QRW.Wait()
 
 	go handleInitErr()
 
@@ -60,7 +62,7 @@ func init() {
 	files, err = filepath.Glob(filepath.Join("data", "html", "*.html"))
 	EC <- err
 	if len(files) == 0 {
-		EC <- errors.New("NO data!")
+		EC <- errors.New("[POST] [EMPTY_DATA]")
 	}
 	InitCOSClient()
 	for i := range files {
@@ -69,14 +71,14 @@ func init() {
 	}
 	PW.Wait()
 	close(PC)
-	os.MkdirAll("qrcodes", os.ModePerm)
-	var pairs []string
+	pairs := make([]string, 0, len(files)*2)
 	for p := range PC {
 		tx = DB.MustBegin()
 		_, err = tx.NamedExec(AddPost, p)
 		EC <- err
 		EC <- tx.Commit()
-		EC <- p.GenQrCode()
+		QRW.Add(1)
+		go p.GenQrCode()
 		pairs = append(pairs, p.Id.String(), p.PackedField())
 	}
 	BG = context.Background()
@@ -136,7 +138,7 @@ func parseData(num int) {
 	doc.Find(".cj_small_img").First().Each(func(i int, s *goquery.Selection) {
 		r, exists := s.Children().First().Attr("src")
 		if !exists {
-			EC <- fmt.Errorf("%d.html doesn't contain pic", num)
+			EC <- fmt.Errorf("[POST] [PIC_MISSED:%d.html]", num)
 		} else {
 			p.Pic = Upload2COS(filepath.Join("data", "html", r), num)
 		}
@@ -161,7 +163,7 @@ func Upload2COS(src string, num int) string {
 	exist, err := COS_CLIENT.Object.IsExist(context.Background(), key)
 	EC <- err
 	if !exist {
-		Logger.Printf("%s not exists. uploading soon", key)
+		Logger.Printf("[POST] [UPLOADING:%s->%s]", src, key)
 		_, _, err = COS_CLIENT.Object.Upload(context.Background(), key, src, nil)
 		EC <- err
 	}
