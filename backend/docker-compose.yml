@@ -10,6 +10,8 @@ services:
       - redis
     extra_hosts:
       - "host.docker.internal:host-gateway"
+    restart: always
 
   redis:
     image: "redis:latest"
+    restart: always
