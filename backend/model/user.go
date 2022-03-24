@@ -49,11 +49,11 @@ func (u *User) SignUp(email, pswd string) (res int) {
 	u.PswdHash = GetHashFromPswd(pswd)
 	tx := DB.MustBegin()
 	_, err := tx.NamedExec(SignUpUser, u)
+	WTF(tx.Commit())
 	if GetSqlErrNum(err) == 1062 {
 		res = DUPLICATED_NAME
 		return
 	}
 	WTF(err)
-	WTF(tx.Commit())
 	return
 }

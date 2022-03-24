@@ -1,1 +1,1 @@
-protoc --dart_out=grpc:lib/grpc -Iproto proto/*.proto
+protoc --dart_out=grpc:lib/services/proto -Iproto proto/*.proto
