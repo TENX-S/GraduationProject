@@ -4,7 +4,7 @@ import '../models/user.dart';
 import 'proto/auth.pbgrpc.dart';
 import 'proto/post.pbgrpc.dart';
 
-const host = '10.0.2.2';
+const host = '192.168.3.3';
 const port = 8080;
 
 class Client {

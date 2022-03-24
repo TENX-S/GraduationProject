@@ -4,17 +4,17 @@ LABEL author="Andrew Ares <coldswind@163.com>"
 
 WORKDIR /code
 
-RUN USER=root mv /etc/apt/sources.list /etc/apt/sources.list.bak
-RUN USER=root cat /dev/null > /etc/apt/sources.list
-
-RUN USER=ROOT cat "deb http://mirrors.ustc.edu.cn/debian/ buster main" >> /etc/apt/sources.list
-RUN USER=ROOT cat "deb-src http://mirrors.ustc.edu.cn/debian/ buster main" >> /etc/apt/sources.list
-RUN USER=ROOT cat "deb http://security.debian.org/debian-security buster/updates main" >> /etc/apt/sources.list
-RUN USER=ROOT cat "deb-src http://security.debian.org/debian-security buster/updates main" >> /etc/apt/sources.list
-RUN USER=ROOT cat "deb http://mirrors.ustc.edu.cn/debian/ buster-updates main" >> /etc/apt/sources.list
-RUN USER=ROOT cat "deb-src http://mirrors.ustc.edu.cn/debian/ buster-updates main" >> /etc/apt/sources.list
-RUN USER=ROOT cat "deb http://mirrors.ustc.edu.cn/debian/ buster-backports main non-free contrib" >> /etc/apt/sources.list
-RUN USER=ROOT cat "deb-src http://mirrors.ustc.edu.cn/debian/ buster-backports main non-free contrib" >> /etc/apt/sources.list
+# RUN USER=root mv /etc/apt/sources.list /etc/apt/sources.list.bak
+# RUN USER=root cat /dev/null > /etc/apt/sources.list
+#
+# RUN USER=ROOT cat "deb http://mirrors.ustc.edu.cn/debian/ buster main" >> /etc/apt/sources.list
+# RUN USER=ROOT cat "deb-src http://mirrors.ustc.edu.cn/debian/ buster main" >> /etc/apt/sources.list
+# RUN USER=ROOT cat "deb http://security.debian.org/debian-security buster/updates main" >> /etc/apt/sources.list
+# RUN USER=ROOT cat "deb-src http://security.debian.org/debian-security buster/updates main" >> /etc/apt/sources.list
+# RUN USER=ROOT cat "deb http://mirrors.ustc.edu.cn/debian/ buster-updates main" >> /etc/apt/sources.list
+# RUN USER=ROOT cat "deb-src http://mirrors.ustc.edu.cn/debian/ buster-updates main" >> /etc/apt/sources.list
+# RUN USER=ROOT cat "deb http://mirrors.ustc.edu.cn/debian/ buster-backports main non-free contrib" >> /etc/apt/sources.list
+# RUN USER=ROOT cat "deb-src http://mirrors.ustc.edu.cn/debian/ buster-backports main non-free contrib" >> /etc/apt/sources.list
 
 RUN USER=root apt update && apt upgrade -y
 RUN USER=root apt-get install -y protobuf-compiler
