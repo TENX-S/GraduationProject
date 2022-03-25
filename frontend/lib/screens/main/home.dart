@@ -278,6 +278,7 @@ class CustomButton extends StatelessWidget {
             AutoSizeText(
               name,
               maxLines: 1,
+              minFontSize: 8,
             ),
           ],
         ),
