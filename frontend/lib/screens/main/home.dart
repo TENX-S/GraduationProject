@@ -231,7 +231,9 @@ class _HomePageState extends State<HomePage> {
                             child: AutoSizeText(
                               exhibitionArr[idx],
                               // textAlign: TextAlign.center,
-                              minFontSize: 8,
+                              style: const TextStyle(
+                                fontSize: 11,
+                              ),
                               maxLines: 2,
                             ),
                           ),
