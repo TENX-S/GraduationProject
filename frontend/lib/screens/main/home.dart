@@ -232,7 +232,7 @@ class _HomePageState extends State<HomePage> {
                               exhibitionArr[idx],
                               // textAlign: TextAlign.center,
                               style: const TextStyle(
-                                fontSize: 15,
+                                fontSize: 11,
                               ),
                               maxLines: 2,
                             ),
