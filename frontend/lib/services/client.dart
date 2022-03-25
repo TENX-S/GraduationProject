@@ -1,17 +1,38 @@
+import 'dart:io';
+
+import 'package:device_info_plus/device_info_plus.dart';
 import 'package:grpc/grpc.dart';
 
 import '../models/user.dart';
 import 'proto/auth.pbgrpc.dart';
 import 'proto/post.pbgrpc.dart';
 
-const host = '192.168.3.3';
+late String? host;
 const port = 8080;
+var deviceInfo = DeviceInfoPlugin();
+
+Future<void> confirmHost() async {
+  if (Platform.isAndroid) {
+    var androidInfo = await deviceInfo.androidInfo;
+    if (androidInfo.isPhysicalDevice!) {
+      host = '1.116.216.141';
+    } else {
+      host = '10.0.2.2';
+    }
+  } else if (Platform.isIOS) {
+    var iosInfo = await deviceInfo.iosInfo;
+    if (iosInfo.isPhysicalDevice) {
+      host = '1.116.216.141';
+    } else {
+      host = '192.168.3.3';
+    }
+  }
+}
 
 class Client {
   late AuthenticateClient auth;
   late PostClient post;
-
-  static final Client client = Client._connect(host, port);
+  static final Client client = Client._connect(host!, port);
 
   factory Client() {
     return client;

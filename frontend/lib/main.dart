@@ -5,13 +5,17 @@ import 'package:flutter/services.dart';
 
 import 'common/router.dart';
 import 'common/styles.dart';
+import 'services/client.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations(
       [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
 
-  runApp(const App());
+  runApp(const InitWrapper(
+    child: App(),
+    onInit: confirmHost,
+  ));
 }
 
 class App extends StatelessWidget {
@@ -29,4 +33,28 @@ class App extends StatelessWidget {
         routerDelegate: router.routerDelegate,
         routeInformationParser: router.routeInformationParser,
       );
+}
+
+class InitWrapper extends StatefulWidget {
+  final Function onInit;
+  final Widget child;
+
+  const InitWrapper({Key? key, required this.onInit, required this.child})
+      : super(key: key);
+
+  @override
+  State<InitWrapper> createState() => _InitWrapperState();
+}
+
+class _InitWrapperState extends State<InitWrapper> {
+  @override
+  void initState() {
+    widget.onInit();
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return widget.child;
+  }
 }

@@ -60,9 +60,9 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.all(5),
+              padding: const EdgeInsets.all(2),
               child: SizedBox(
-                height: 240,
+                height: 244,
                 child: Column(
                   children: [
                     Flexible(
@@ -160,16 +160,16 @@ class _HomePageState extends State<HomePage> {
                       color: AppColor.primary,
                       shape: BoxShape.rectangle,
                     ),
-                    height: 24,
+                    height: 28,
                     width: 7,
                   ),
                   const Padding(
                     padding: EdgeInsets.only(left: 11),
                     child: Text(
-                      '展览详情',
+                      '展览推荐',
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
-                        fontSize: 19,
+                        fontSize: 17,
                       ),
                     ),
                   ),
@@ -209,16 +209,12 @@ class _HomePageState extends State<HomePage> {
                       children: List<Widget>.generate(
                         exhibitionArr.length,
                         (idx) => TableCell(
-                          child: Container(
-                            margin: const EdgeInsets.only(left: 15),
-                            child: ClipRRect(
-                              borderRadius:
-                                  const BorderRadius.all(Radius.circular(12)),
-                              child: Image.asset(
-                                'assets/images/slider/${idx + 1}.jpg',
-                                height: 125,
-                                width: 60,
-                              ),
+                          child: MaterialButton(
+                            onPressed: () {},
+                            child: Image.asset(
+                              'assets/images/slider/${idx + 1}.jpg',
+                              // height: 145,
+                              // width: 60,
                             ),
                           ),
                         ),
@@ -270,11 +266,17 @@ class CustomButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: Column(
-        children: [
-          Image.asset('assets/images/button/$imageIdx.png'),
-          Text(name),
-        ],
+      child: MaterialButton(
+        onPressed: () {},
+        child: Column(
+          children: [
+            Image.asset(
+              'assets/images/button/$imageIdx.png',
+              height: 85,
+            ),
+            Text(name),
+          ],
+        ),
       ),
     );
   }
