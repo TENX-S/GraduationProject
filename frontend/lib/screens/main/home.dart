@@ -228,12 +228,10 @@ class _HomePageState extends State<HomePage> {
                           child: Container(
                             padding: const EdgeInsets.only(top: 5),
                             margin: const EdgeInsets.only(left: 20),
-                            child: Text(
+                            child: AutoSizeText(
                               exhibitionArr[idx],
                               // textAlign: TextAlign.center,
-                              style: const TextStyle(
-                                fontSize: 15,
-                              ),
+                              minFontSize: 8,
                               maxLines: 2,
                             ),
                           ),
