@@ -1,20 +1,23 @@
+import 'dart:async';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 
 import 'common/router.dart';
 import 'common/styles.dart';
 import 'services/client.dart';
 
 void main() {
-  WidgetsFlutterBinding.ensureInitialized();
+  var widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+  FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   SystemChrome.setPreferredOrientations(
       [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
 
-  runApp(const InitWrapper(
+  runApp(const InitStateless(
+    init: confirmHost,
     child: App(),
-    onInit: confirmHost,
   ));
 }
 
@@ -35,21 +38,22 @@ class App extends StatelessWidget {
       );
 }
 
-class InitWrapper extends StatefulWidget {
-  final Function onInit;
+class InitStateless extends StatefulWidget {
+  final Function init;
   final Widget child;
 
-  const InitWrapper({Key? key, required this.onInit, required this.child})
+  const InitStateless({Key? key, required this.init, required this.child})
       : super(key: key);
 
   @override
-  State<InitWrapper> createState() => _InitWrapperState();
+  State<InitStateless> createState() => _InitStatelessState();
 }
 
-class _InitWrapperState extends State<InitWrapper> {
+class _InitStatelessState extends State<InitStateless> {
   @override
-  void initState() {
-    widget.onInit();
+  initState() {
+    widget.init();
+    Future.delayed(const Duration(seconds: 2), FlutterNativeSplash.remove);
     super.initState();
   }
 
