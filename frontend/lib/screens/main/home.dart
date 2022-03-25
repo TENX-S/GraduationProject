@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:card_swiper/card_swiper.dart';
 import 'package:flutter/material.dart';
 import 'package:frontend/common/router.dart';
@@ -274,7 +275,11 @@ class CustomButton extends StatelessWidget {
               'assets/images/button/$imageIdx.png',
               height: 85,
             ),
-            Text(name),
+            AutoSizeText(
+              name,
+              maxLines: 1,
+              minFontSize: 8,
+            ),
           ],
         ),
       ),
