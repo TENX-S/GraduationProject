@@ -21,21 +21,21 @@ func (s *PostService) OnQuery(ctx context.Context, in *PostRequest) (*PostReply,
 
 	switch res {
 	case SUCCESS:
-		Logger.Printf("[POST:QUERY] [SUCCESS:%s]", in.Id)
+		L.Printf("[POST:QUERY] [SUCCESS:%s]", in.Id)
 		reply = &PostReply{Success: true, Content: &PostContent{Name: p.Name, Dynasty: p.Dynasty, Descr: p.Descr, Intro: p.Intro, Pic: p.Pic}, Error: nil}
 		return reply, nil
 	case NONEXISTENT_POST:
-		Logger.Printf("[POST:QUERY] [FAIL:NONEXISTENT_POST:%s]", in.Id)
+		L.Printf("[POST:QUERY] [FAIL:NONEXISTENT_POST:%s]", in.Id)
 		err = PostError_NONEXISTENT_POST
 		reply = &PostReply{Success: false, Content: nil, Error: &err}
 		return reply, nil
 	case INVALID_POST_ID:
-		Logger.Printf("[POST:QUERY] [FAIL:INVALID_POST_ID:%s]", in.Id)
+		L.Printf("[POST:QUERY] [FAIL:INVALID_POST_ID:%s]", in.Id)
 		err = PostError_INVALID_POST_ID
 		reply = &PostReply{Success: false, Content: nil, Error: &err}
 		return reply, nil
 	}
 
-	Logger.Fatal(fmt.Sprintf("[POST:QUERY] [FATAL:%s] [RES:%d]", in.Id, res))
+	L.Fatal(fmt.Sprintf("[POST:QUERY] [FATAL:%s] [RES:%d]", in.Id, res))
 	return reply, nil
 }

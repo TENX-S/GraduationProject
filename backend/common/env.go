@@ -15,6 +15,8 @@ type Env struct {
 	DEPLOY                 string
 	LISTEN_ADDR            string
 	DB_NAME                string
+	TEST_USER_EMAIL        string
+	TEST_USER_PSWD         string
 	MYSQL_HOST             string
 	MYSQL_PASS             string
 	MYSQL_ADDR             string
@@ -23,6 +25,7 @@ type Env struct {
 	TENCENT_COS_BUCKET     string
 	TENCENT_COS_SECRET_ID  string
 	TENCENT_COS_SECRET_KEY string
+	PSWD_SALT              string
 }
 
 var E Env
@@ -35,6 +38,8 @@ func init() {
 	E.DEPLOY = os.Getenv("DEPLOY")
 	E.LISTEN_ADDR = os.Getenv("LISTEN_ADDR")
 	E.DB_NAME = os.Getenv("DB_NAME")
+	E.TEST_USER_EMAIL = os.Getenv("TEST_USER_EMAIL")
+	E.TEST_USER_PSWD = os.Getenv("TEST_USER_PSWD")
 	E.MYSQL_HOST = os.Getenv("MYSQL_HOST")
 	E.MYSQL_PASS = os.Getenv("MYSQL_PASS")
 	switch E.DEPLOY {
@@ -61,6 +66,7 @@ func init() {
 	E.TENCENT_COS_BUCKET = os.Getenv("TENCENT_COS_BUCKET")
 	E.TENCENT_COS_SECRET_ID = os.Getenv("TENCENT_COS_SECRET_ID")
 	E.TENCENT_COS_SECRET_KEY = os.Getenv("TENCENT_COS_SECRET_KEY")
+	E.PSWD_SALT = os.Getenv("PSWD_SALT")
 	E.mustSet()
 }
 

@@ -21,21 +21,21 @@ func (s *AuthService) OnLogin(ctx context.Context, in *AuthRequest) (*AuthReply,
 
 	switch res {
 	case SUCCESS:
-		Logger.Printf("[AUTH:LOGIN] [SUCCESS:%s]", in.Name)
+		L.Printf("[AUTH:LOGIN] [SUCCESS:%s]", in.Name)
 		reply = &AuthReply{Success: true, Error: nil}
 		return reply, nil
 	case NONEXISTENT_USER:
-		Logger.Printf("[AUTH:LOGIN] [FAIL:NONEXISTENT_USER:%s]", in.Name)
+		L.Printf("[AUTH:LOGIN] [FAIL:NONEXISTENT_USER:%s]", in.Name)
 		err = AuthError_NONEXISTENT_USER
 		reply = &AuthReply{Success: false, Error: &err}
 		return reply, nil
 	case MISMATCHED_PASSWORD:
-		Logger.Printf("[AUTH:LOGIN] [FAIL:MISMATCHED_PASSWORD:%s]", in.Name)
+		L.Printf("[AUTH:LOGIN] [FAIL:MISMATCHED_PASSWORD:%s]", in.Name)
 		err = AuthError_MISMATCHED_PASSWORD
 		reply = &AuthReply{Success: false, Error: &err}
 		return reply, nil
 	}
-	Logger.Fatal(fmt.Sprintf("[AUTH:LOGIN] [FATAL:%s] [RES:%d]", in.Name, res))
+	L.Fatal(fmt.Sprintf("[AUTH:LOGIN] [FATAL:%s] [RES:%d]", in.Name, res))
 	return reply, nil
 }
 
@@ -47,16 +47,16 @@ func (s *AuthService) OnSignUp(ctx context.Context, in *AuthRequest) (*AuthReply
 
 	switch res {
 	case SUCCESS:
-		Logger.Printf("[AUTH:SIGNUP] [SUCCESS:%s]", in.Name)
+		L.Printf("[AUTH:SIGNUP] [SUCCESS:%s]", in.Name)
 		reply = &AuthReply{Success: true, Error: nil}
 		return reply, nil
 	case DUPLICATED_NAME:
-		Logger.Printf("[AUTH:SIGNUP] [FAIL:DUPLICATED_NAME:%s]", in.Name)
+		L.Printf("[AUTH:SIGNUP] [FAIL:DUPLICATED_NAME:%s]", in.Name)
 		err = AuthError_DUPLICATED_NAME
 		reply = &AuthReply{Success: false, Error: &err}
 		return reply, nil
 	}
 
-	Logger.Fatal(fmt.Sprintf("[AUTH:SIGNUP] [FATAL:%s] [RES:%d]", in.Name, res))
+	L.Fatal(fmt.Sprintf("[AUTH:SIGNUP] [FATAL:%s] [RES:%d]", in.Name, res))
 	return reply, nil
 }

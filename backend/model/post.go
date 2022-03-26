@@ -29,18 +29,20 @@ func (p *Post) PackedField() string {
 	return str.Join([]string{p.Name, p.Dynasty, p.Descr, p.Intro, p.Pic}, "|")
 }
 
-func (p *Post) GenQrCode() {
-	defer QRW.Done()
+func (p Post) initQRCode() {
+	defer QW.Done()
+
 	png, err := qrcode.Encode(p.Id.String(), qrcode.Highest, 512)
 	EC <- err
 
-	key := fmt.Sprintf("qrcode/%s.png", p.Name)
-	Logger.Printf("[POST] [UPLOADING:%s:%s]", p.Name, p.Id)
 	var res *cos.Response
-	res, err = COS_CLIENT.Object.Put(context.Background(), key, bytes.NewReader(png), nil)
+	key := fmt.Sprintf("qrcode/%s.png", p.Name)
+	res, err = CC.Object.Put(context.Background(), key, bytes.NewReader(png), nil)
 	EC <- err
 	if res.StatusCode != 200 {
-		EC <- fmt.Errorf("[POST] [UPLOAD:FAILED:%s:%s]", p.Name, p.Id)
+		EC <- fmt.Errorf("[POST] [UPLOAD:QRCODE:FAILED:%s:%s]", p.Name, p.Id)
+	} else {
+		L.Printf("[POST] [UPLOAD:QRCODE:SUCCESS:%s:%s]", p.Name, p.Id.String())
 	}
 }
 

@@ -19,6 +19,6 @@ func WTF(err error) {
 	if err != nil {
 		pc, filename, line, _ := runtime.Caller(1)
 		msg := fmt.Sprintf("%s[%s:%d] %v", runtime.FuncForPC(pc).Name(), filename, line, err)
-		Logger.Error(msg)
+		L.Error(msg)
 	}
 }

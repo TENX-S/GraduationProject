@@ -6,9 +6,9 @@ import (
 	"github.com/sirupsen/logrus"
 )
 
-var Logger = logrus.New()
+var L = logrus.New()
 
 func init() {
-	Logger.SetLevel(logrus.InfoLevel)
-	Logger.Out = os.Stdout
+	L.SetLevel(logrus.InfoLevel)
+	L.Out = os.Stdout
 }

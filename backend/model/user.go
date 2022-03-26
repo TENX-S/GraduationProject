@@ -23,8 +23,13 @@ type User struct {
 	PswdHash string `db:"pswdhash"`
 }
 
-func GetHashFromPswd(pswd string) string {
-	return fmt.Sprintf("%x", sha256.Sum256([]byte(pswd+salt)))
+func getHash(pswd string) string {
+	return fmt.Sprintf("%x", sha256.Sum256([]byte(pswd+E.PSWD_SALT)))
+}
+
+func (u *User) New(email, pswd string) {
+	u.Email = email
+	u.PswdHash = getHash(pswd)
 }
 
 func (u *User) Login(email, pswd string) (res int) {
@@ -36,7 +41,7 @@ func (u *User) Login(email, pswd string) (res int) {
 	}
 	WTF(err)
 	WTF(tx.Commit())
-	if GetHashFromPswd(pswd) == u.PswdHash {
+	if getHash(pswd) == u.PswdHash {
 		return
 	} else {
 		res = MISMATCHED_PASSWORD
@@ -45,8 +50,7 @@ func (u *User) Login(email, pswd string) (res int) {
 }
 
 func (u *User) SignUp(email, pswd string) (res int) {
-	u.Email = email
-	u.PswdHash = GetHashFromPswd(pswd)
+	u.New(email, pswd)
 	tx := DB.MustBegin()
 	_, err := tx.NamedExec(SignUpUser, u)
 	WTF(tx.Commit())

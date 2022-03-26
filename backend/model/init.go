@@ -21,76 +21,89 @@ import (
 	"github.com/tencentyun/cos-go-sdk-v5"
 )
 
-var salt = "我时常被雨淋透，我还未遇到喜欢的伞"
 var DB *sqlx.DB
-var KV *redis.Client
+var KV = redis.NewClient(&redis.Options{
+	Addr:     E.REDIS_ADDR,
+	Password: "",
+	DB:       0,
+})
 var BG context.Context
 var EC = make(chan error)
 var PC = make(chan Post, 1000)
 var PW sync.WaitGroup
-var QRW sync.WaitGroup
-var COS_CLIENT *cos.Client
+var QW sync.WaitGroup
+var CC *cos.Client
 
 func init() {
-	defer Logger.Info("[SERVICE] [INITIALIZATION COMPLETED]")
+	defer L.Info("[SERVICE] [INITIALIZATION COMPLETED]")
 	defer close(EC)
-	defer QRW.Wait()
+	defer QW.Wait()
 
-	go handleInitErr()
-
-	var err error
-	dsn := fmt.Sprintf("%s:%s@tcp(%s)/museum", E.MYSQL_HOST, E.MYSQL_PASS, E.MYSQL_ADDR)
-	DB, err = sqlx.Connect("mysql", dsn)
-	EC <- err
-
-	DB.MustExec(userSchema)
-	DB.MustExec(postSchema)
-
-	tx := DB.MustBegin()
-	test := User{Email: "test@test.com", PswdHash: GetHashFromPswd("test")}
-	_, err = tx.NamedExec(SignUpTestUser, &test)
-	EC <- err
-	EC <- tx.Commit()
-
-	KV = redis.NewClient(&redis.Options{
-		Addr:     E.REDIS_ADDR,
-		Password: "",
-		DB:       0,
-	})
-
-	var files []string
-	files, err = filepath.Glob(filepath.Join("data", "html", "*.html"))
-	EC <- err
-	if len(files) == 0 {
-		EC <- errors.New("[POST] [EMPTY_DATA]")
-	}
-	InitCOSClient()
-	for i := range files {
-		PW.Add(1)
-		go parseData(i + 1)
-	}
-	PW.Wait()
-	close(PC)
-	pairs := make([]string, 0, len(files)*2)
-	for p := range PC {
-		tx = DB.MustBegin()
-		_, err = tx.NamedExec(AddPost, p)
-		EC <- err
-		EC <- tx.Commit()
-		QRW.Add(1)
-		go p.GenQrCode()
-		pairs = append(pairs, p.Id.String(), p.PackedField())
-	}
-	BG = context.Background()
-	EC <- KV.MSet(BG, pairs).Err()
+	go initErrHandler()
+	initDB()
+	initCC()
+	initDBUser()
+	initDBPost()
+	initKV()
 }
 
-func handleInitErr() {
+func initErrHandler() {
 	for err := range EC {
 		if err != nil {
 			panic(err.Error())
 		}
 	}
+}
+
+func initDB() {
+	var err error
+	dsn := fmt.Sprintf("%s:%s@tcp(%s)/%s", E.MYSQL_HOST, E.MYSQL_PASS, E.MYSQL_ADDR, E.DB_NAME)
+	DB, err = sqlx.Connect("mysql", dsn)
+	EC <- err
+	DB.MustExec(userSchema)
+	DB.MustExec(postSchema)
+}
+
+func initCC() {
+	u, err := url.Parse(E.TENCENT_COS_BUCKET)
+	bucket := &cos.BaseURL{BucketURL: u}
+	CC = cos.NewClient(bucket, &http.Client{
+		Transport: &cos.AuthorizationTransport{
+			SecretID:  E.TENCENT_COS_SECRET_ID,
+			SecretKey: E.TENCENT_COS_SECRET_KEY,
+		},
+	})
+	EC <- err
+}
+
+func initDBUser() {
+	tx := DB.MustBegin()
+	var test User
+	test.New(E.TEST_USER_EMAIL, E.TEST_USER_PSWD)
+	_, err := tx.NamedExec(SignUpTestUser, &test)
+	EC <- err
+	EC <- tx.Commit()
+}
+
+func initDBPost() {
+	var data []string
+	data, err := filepath.Glob(filepath.Join("data", "html", "*.html"))
+	EC <- err
+	if len(data) == 0 {
+		EC <- errors.New("[POST] [EMPTY_DATA]")
+	}
+	for i := range data {
+		PW.Add(1)
+		go parseData(i + 1)
+	}
+	PW.Wait()
+	close(PC)
+	tx := DB.MustBegin()
+	for p := range PC {
+		_, err = tx.NamedExec(AddPost, p)
+		EC <- err
+	}
+	EC <- tx.Commit()
 }
 
 func parseData(num int) {
@@ -140,32 +153,40 @@ func parseData(num int) {
 		if !exists {
 			EC <- fmt.Errorf("[POST] [PIC_MISSED:%d.html]", num)
 		} else {
-			p.Pic = Upload2COS(filepath.Join("data", "html", r), num)
+			p.Pic = UploadPic2Cos(filepath.Join("data", "html", r), num)
 		}
 	})
 	PC <- p
 }
 
-func InitCOSClient() {
-	u, err := url.Parse(E.TENCENT_COS_BUCKET)
-	bucket := &cos.BaseURL{BucketURL: u}
-	COS_CLIENT = cos.NewClient(bucket, &http.Client{
-		Transport: &cos.AuthorizationTransport{
-			SecretID:  E.TENCENT_COS_SECRET_ID,
-			SecretKey: E.TENCENT_COS_SECRET_KEY,
-		},
-	})
-	EC <- err
+func initKV() {
+	var posts []Post
+	tx := DB.MustBegin()
+	EC <- tx.Select(&posts, FetchAllPosts)
+	EC <- tx.Commit()
+	mset := make(map[string]string)
+	for _, p := range posts {
+		mset[p.Id.String()] = p.PackedField()
+		QW.Add(1)
+		go p.initQRCode()
+	}
+
+	BG = context.Background()
+	EC <- KV.MSet(BG, mset).Err()
 }
 
-func Upload2COS(src string, num int) string {
+func UploadPic2Cos(src string, num int) string {
 	key := fmt.Sprintf("pic/%d%s", num, filepath.Ext(src))
-	exist, err := COS_CLIENT.Object.IsExist(context.Background(), key)
+	exist, err := CC.Object.IsExist(context.Background(), key)
 	EC <- err
 	if !exist {
-		Logger.Printf("[POST] [UPLOADING:%s->%s]", src, key)
-		_, _, err = COS_CLIENT.Object.Upload(context.Background(), key, src, nil)
+		_, res, err := CC.Object.Upload(context.Background(), key, src, nil)
 		EC <- err
+		if res.StatusCode != 200 {
+			EC <- fmt.Errorf("[POST] [UPLOAD:PIC:FAILED:%s->%s]", src, key)
+		} else {
+			L.Printf("[POST] [UPLOAD:PIC:SUCCESS:%s->%s]", src, key)
+		}
 	}
 	return fmt.Sprintf("%s/%s", E.TENCENT_CDN, key)
 }
