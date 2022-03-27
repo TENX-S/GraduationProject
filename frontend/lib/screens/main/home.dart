@@ -176,14 +176,15 @@ class _HomePageState extends State<HomePage> {
                   Padding(
                     padding: const EdgeInsets.only(right: 5),
                     child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: const [
                         Text(
                           '全部',
                           style: TextStyle(
                             color: Color(0xffE3916E),
                             decoration: TextDecoration.underline,
-                            fontSize: 17,
+                            fontSize: 15,
                           ),
                         ),
                         Icon(
@@ -280,7 +281,7 @@ class CustomButton extends StatelessWidget {
             style: const TextStyle(
               fontFamily: AppFont.label,
               fontWeight: FontWeight.w600,
-              fontSize: 18,
+              fontSize: 15,
             ),
             maxLines: 1,
           ),
