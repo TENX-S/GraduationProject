@@ -53,7 +53,7 @@ class _InitStatelessState extends State<InitStateless> {
   @override
   initState() {
     widget.init();
-    Future.delayed(const Duration(seconds: 2), FlutterNativeSplash.remove);
+    Future.delayed(const Duration(seconds: 1), FlutterNativeSplash.remove);
     super.initState();
   }
 

@@ -168,7 +168,7 @@ class _HomePageState extends State<HomePage> {
                       style: TextStyle(
                         fontWeight: FontWeight.normal,
                         fontFamily: AppFont.title,
-                        fontSize: 19,
+                        fontSize: 17,
                       ),
                     ),
                   ),

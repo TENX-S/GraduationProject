@@ -46,8 +46,8 @@ class _CollPageState extends State<CollPage> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            Container(
-              color: const Color.fromARGB(255, 236, 236, 234),
+            Material(
+              elevation: 2,
               child: Padding(
                 padding: const EdgeInsets.all(13.0),
                 child: ClipRRect(
@@ -66,9 +66,11 @@ class _CollPageState extends State<CollPage> {
                       posts: snapshot.data as List<PostReply>,
                     );
                   } else {
-                    return const Center(
-                      child: SpinKitCubeGrid(
-                        color: AppColor.primary,
+                    return const Expanded(
+                      child: Center(
+                        child: SpinKitCubeGrid(
+                          color: AppColor.primary,
+                        ),
                       ),
                     );
                   }
@@ -95,6 +97,7 @@ class _CollPageState extends State<CollPage> {
     required List<PostReply> posts,
   }) {
     return Container(
+      padding: const EdgeInsets.only(top: 10),
       color: const Color.fromARGB(255, 236, 236, 234),
       child: MasonryGridView.count(
         primary: false,
@@ -106,34 +109,30 @@ class _CollPageState extends State<CollPage> {
         itemCount: posts.length,
         itemBuilder: (BuildContext context, int index) {
           return Card(
+            shape: const RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(
+                Radius.circular(
+                  5,
+                ),
+              ),
+            ),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                CachedNetworkImage(
-                  imageUrl: posts[index].content.pic,
-                  fit: BoxFit.fill,
-                  placeholder: (context, url) => const Center(
-                    child: SpinKitCubeGrid(
-                      color: AppColor.primary,
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 10),
+                  child: CachedNetworkImage(
+                    imageUrl: posts[index].content.pic,
+                    fit: BoxFit.fill,
+                    placeholder: (context, url) => const Center(
+                      child: SpinKitCubeGrid(
+                        color: AppColor.primary,
+                      ),
                     ),
                   ),
                 ),
-                // Image.network(
-                //   posts[index].content.pic,
-                //   fit: BoxFit.fill,
-                //   loadingBuilder: (context, child, progress) {
-                //     if (progress == null) {
-                //       return child;
-                //     }
-                //     return const Center(
-                //       child: SpinKitCubeGrid(
-                //         color: AppColor.primary,
-                //       ),
-                //     );
-                //   },
-                // ),
                 Padding(
-                  padding: const EdgeInsets.only(bottom: 5),
+                  padding: const EdgeInsets.fromLTRB(5, 0, 5, 5),
                   child: Text(
                     posts[index].content.name,
                     textAlign: TextAlign.start,
@@ -148,38 +147,6 @@ class _CollPageState extends State<CollPage> {
             ),
           );
         },
-        // children: List<Widget>.generate(
-        //   posts.length,
-        //   (index) => Card(
-        //     child: Column(
-        //       mainAxisAlignment: MainAxisAlignment.spaceAround,
-        //       children: [
-        //         Flexible(
-        //           child: CachedNetworkImage(
-        //             imageUrl: posts[index].content.pic,
-        //             fit: BoxFit.fill,
-        //             placeholder: (context, url) => const Center(
-        //               child: SpinKitCubeGrid(
-        //                 color: AppColor.primary,
-        //               ),
-        //             ),
-        //           ),
-        //         ),
-        //         Flexible(
-        //           child: Text(
-        //             posts[index].content.name,
-        //             textAlign: TextAlign.start,
-        //             style: const TextStyle(
-        //               fontFamily: AppFont.label,
-        //               color: AppColor.collAppBarTitle,
-        //             ),
-        //             maxLines: 2,
-        //           ),
-        //         ),
-        //       ],
-        //     ),
-        //   ),
-        // ),
       ),
     );
   }
