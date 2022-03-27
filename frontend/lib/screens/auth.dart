@@ -33,14 +33,14 @@ class _AuthPageState extends State<AuthPage> {
     return Future.value(true);
   }
 
-  Future<String?> _onSignUp(LoginData input) async {
+  Future<String?> _onSignUp(SignupData input) async {
     if (kDebugMode) {
       print(input.name);
       print(input.password);
     }
     final user = User(
-      email: input.name,
-      password: input.password,
+      email: input.name!,
+      password: input.password!,
     );
     late final AuthReply resp;
     try {

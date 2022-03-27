@@ -1,4 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
@@ -32,7 +31,7 @@ class _CollPageState extends State<CollPage> {
             fontFamily: AppFont.title,
             color: AppColor.collAppBarTitle,
             fontWeight: FontWeight.normal,
-            fontSize: 28,
+            fontSize: 23,
           ),
         ),
         actions: [
@@ -46,11 +45,14 @@ class _CollPageState extends State<CollPage> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            Padding(
-              padding: const EdgeInsets.all(13.0),
-              child: ClipRRect(
-                borderRadius: const BorderRadius.all(Radius.circular(8.0)),
-                child: Image.asset('assets/images/ad3.jpg'),
+            Container(
+              color: const Color.fromARGB(255, 236, 236, 234),
+              child: Padding(
+                padding: const EdgeInsets.all(13.0),
+                child: ClipRRect(
+                  borderRadius: const BorderRadius.all(Radius.circular(8.0)),
+                  child: Image.asset('assets/images/ad3.jpg'),
+                ),
               ),
             ),
             FutureBuilder(
@@ -91,76 +93,94 @@ class _CollPageState extends State<CollPage> {
     required BuildContext context,
     required List<PostReply> posts,
   }) {
-    return MasonryGridView.count(
-      primary: false,
-      shrinkWrap: true,
-      mainAxisSpacing: 10,
-      crossAxisSpacing: 10,
-      padding: const EdgeInsets.symmetric(horizontal: 10),
-      crossAxisCount: 2,
-      itemCount: posts.length,
-      itemBuilder: (BuildContext context, int index) {
-        return Card(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              CachedNetworkImage(
-                imageUrl: posts[index].content.pic,
-                fit: BoxFit.fill,
-                placeholder: (context, url) => const Center(
-                  child: SpinKitCubeGrid(
-                    color: AppColor.primary,
+    return Container(
+      color: const Color.fromARGB(255, 236, 236, 234),
+      child: MasonryGridView.count(
+        primary: false,
+        shrinkWrap: true,
+        mainAxisSpacing: 10,
+        crossAxisSpacing: 10,
+        padding: const EdgeInsets.symmetric(horizontal: 10),
+        crossAxisCount: 2,
+        itemCount: posts.length,
+        itemBuilder: (BuildContext context, int index) {
+          return Card(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                // CachedNetworkImage(
+                //   imageUrl: posts[index].content.pic,
+                //   fit: BoxFit.fill,
+                //   placeholder: (context, url) => const Center(
+                //     child: SpinKitCubeGrid(
+                //       color: AppColor.primary,
+                //     ),
+                //   ),
+                // ),
+                Image.network(
+                  posts[index].content.pic,
+                  fit: BoxFit.fill,
+                  loadingBuilder: (context, child, progress) {
+                    if (progress == null) {
+                      return child;
+                    } else {
+                      return const Center(
+                        child: SpinKitCubeGrid(
+                          color: AppColor.primary,
+                        ),
+                      );
+                    }
+                  },
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 5),
+                  child: Text(
+                    posts[index].content.name,
+                    textAlign: TextAlign.start,
+                    style: const TextStyle(
+                      fontFamily: AppFont.label,
+                      color: AppColor.collAppBarTitle,
+                    ),
+                    maxLines: 2,
                   ),
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(bottom: 5),
-                child: Text(
-                  posts[index].content.name,
-                  textAlign: TextAlign.start,
-                  style: const TextStyle(
-                    fontFamily: AppFont.label,
-                    color: AppColor.collAppBarTitle,
-                  ),
-                  maxLines: 2,
-                ),
-              ),
-            ],
-          ),
-        );
-      },
-      // children: List<Widget>.generate(
-      //   posts.length,
-      //   (index) => Card(
-      //     child: Column(
-      //       mainAxisAlignment: MainAxisAlignment.spaceAround,
-      //       children: [
-      //         Flexible(
-      //           child: CachedNetworkImage(
-      //             imageUrl: posts[index].content.pic,
-      //             fit: BoxFit.fill,
-      //             placeholder: (context, url) => const Center(
-      //               child: SpinKitCubeGrid(
-      //                 color: AppColor.primary,
-      //               ),
-      //             ),
-      //           ),
-      //         ),
-      //         Flexible(
-      //           child: Text(
-      //             posts[index].content.name,
-      //             textAlign: TextAlign.start,
-      //             style: const TextStyle(
-      //               fontFamily: AppFont.label,
-      //               color: AppColor.collAppBarTitle,
-      //             ),
-      //             maxLines: 2,
-      //           ),
-      //         ),
-      //       ],
-      //     ),
-      //   ),
-      // ),
+              ],
+            ),
+          );
+        },
+        // children: List<Widget>.generate(
+        //   posts.length,
+        //   (index) => Card(
+        //     child: Column(
+        //       mainAxisAlignment: MainAxisAlignment.spaceAround,
+        //       children: [
+        //         Flexible(
+        //           child: CachedNetworkImage(
+        //             imageUrl: posts[index].content.pic,
+        //             fit: BoxFit.fill,
+        //             placeholder: (context, url) => const Center(
+        //               child: SpinKitCubeGrid(
+        //                 color: AppColor.primary,
+        //               ),
+        //             ),
+        //           ),
+        //         ),
+        //         Flexible(
+        //           child: Text(
+        //             posts[index].content.name,
+        //             textAlign: TextAlign.start,
+        //             style: const TextStyle(
+        //               fontFamily: AppFont.label,
+        //               color: AppColor.collAppBarTitle,
+        //             ),
+        //             maxLines: 2,
+        //           ),
+        //         ),
+        //       ],
+        //     ),
+        //   ),
+        // ),
+      ),
     );
   }
 }
