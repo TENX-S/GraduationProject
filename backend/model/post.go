@@ -74,20 +74,56 @@ func (p *Post) Query(id string) (res int) {
 		}
 	}
 	if err == nil {
-		arr := str.Split(val, "|")
-		if len(arr) != 5 {
-			panic("oh blooding hell")
-		}
-
-		p.Name = arr[0]
-		p.Dynasty = arr[1]
-		p.Descr = arr[2]
-		p.Intro = arr[3]
-		p.Pic = arr[4]
+		p.mapStr2Post(val)
 		return
 	} else {
 		res = UNKNOWN
 		WTF(err)
 		return
 	}
+}
+
+func FetchAll() []Post {
+	var ids []uuid.UUID
+	tx := DB.MustBegin()
+	WTF(tx.Select(&ids, FetchAllPostId))
+	WTF(tx.Commit())
+	res, err := KV.MGet(BG, mapUUID2Str(ids)...).Result()
+	posts := make([]Post, len(res))
+	for i, v := range res {
+		var p Post
+		val := v.(string)
+		p.mapStr2Post(val)
+		posts[i] = p
+	}
+	if err == redis.Nil {
+		L.Printf("[POST] [MISS:%#v]", err)
+		tx = DB.MustBegin()
+		WTF(tx.Select(&posts, FetchAllPosts))
+		WTF(tx.Commit())
+	} else {
+		WTF(err)
+	}
+	return posts
+}
+
+func mapUUID2Str(src []uuid.UUID) []string {
+	dst := make([]string, len(src))
+	for i, v := range src {
+		dst[i] = v.String()
+	}
+	return dst
+}
+
+func (p *Post) mapStr2Post(val string) {
+	arr := str.Split(val, "|")
+	if len(arr) != 5 {
+		panic("oh blooding hell")
+	}
+
+	p.Name = arr[0]
+	p.Dynasty = arr[1]
+	p.Descr = arr[2]
+	p.Intro = arr[3]
+	p.Pic = arr[4]
 }

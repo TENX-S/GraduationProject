@@ -39,3 +39,13 @@ func (s *PostService) OnQuery(ctx context.Context, in *PostRequest) (*PostReply,
 	L.Fatal(fmt.Sprintf("[POST:QUERY] [FATAL:%s] [RES:%d]", in.Id, res))
 	return reply, nil
 }
+
+func (s *PostService) OnFetchAll(ctx context.Context, in *Empty) (*Posts, error) {
+	var posts []*PostReply
+
+	for _, p := range FetchAll() {
+		posts = append(posts, &PostReply{Success: true, Content: &PostContent{Name: p.Name, Dynasty: p.Dynasty, Descr: p.Descr, Intro: p.Intro, Pic: p.Pic}, Error: nil})
+	}
+	L.Printf("[POST:FETCH_ALL] [SUCCESS:%d posts]", len(posts))
+	return &Posts{Posts: posts}, nil
+}

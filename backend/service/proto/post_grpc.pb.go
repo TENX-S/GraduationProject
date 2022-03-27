@@ -19,6 +19,7 @@ const _ = grpc.SupportPackageIsVersion7
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type PostClient interface {
 	OnQuery(ctx context.Context, in *PostRequest, opts ...grpc.CallOption) (*PostReply, error)
+	OnFetchAll(ctx context.Context, in *Empty, opts ...grpc.CallOption) (*Posts, error)
 }
 
 type postClient struct {
@@ -38,11 +39,21 @@ func (c *postClient) OnQuery(ctx context.Context, in *PostRequest, opts ...grpc.
 	return out, nil
 }
 
+func (c *postClient) OnFetchAll(ctx context.Context, in *Empty, opts ...grpc.CallOption) (*Posts, error) {
+	out := new(Posts)
+	err := c.cc.Invoke(ctx, "/z.museum.post.Post/OnFetchAll", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // PostServer is the server API for Post service.
 // All implementations must embed UnimplementedPostServer
 // for forward compatibility
 type PostServer interface {
 	OnQuery(context.Context, *PostRequest) (*PostReply, error)
+	OnFetchAll(context.Context, *Empty) (*Posts, error)
 	mustEmbedUnimplementedPostServer()
 }
 
@@ -52,6 +63,9 @@ type UnimplementedPostServer struct {
 
 func (UnimplementedPostServer) OnQuery(context.Context, *PostRequest) (*PostReply, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method OnQuery not implemented")
+}
+func (UnimplementedPostServer) OnFetchAll(context.Context, *Empty) (*Posts, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method OnFetchAll not implemented")
 }
 func (UnimplementedPostServer) mustEmbedUnimplementedPostServer() {}
 
@@ -84,6 +98,24 @@ func _Post_OnQuery_Handler(srv interface{}, ctx context.Context, dec func(interf
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Post_OnFetchAll_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(Empty)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(PostServer).OnFetchAll(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/z.museum.post.Post/OnFetchAll",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(PostServer).OnFetchAll(ctx, req.(*Empty))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Post_ServiceDesc is the grpc.ServiceDesc for Post service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -94,6 +126,10 @@ var Post_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "OnQuery",
 			Handler:    _Post_OnQuery_Handler,
+		},
+		{
+			MethodName: "OnFetchAll",
+			Handler:    _Post_OnFetchAll_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

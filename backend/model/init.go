@@ -131,6 +131,18 @@ func parseData(num int) {
 	p.Descr = descr
 
 	dynasty := str.TrimSpace(doc.Find(".cj_e_qing").First().Text())
+	if str.Contains(dynasty, "汉") {
+		dynasty = "汉"
+	} else if str.Contains(dynasty, "战国") {
+		dynasty = "战国"
+	} else if str.Contains(dynasty, "明") {
+		dynasty = "明"
+	} else if str.Contains(dynasty, "新石器") {
+		dynasty = "新石器"
+	} else if str.Contains(dynasty, "晋") {
+		dynasty = "晋"
+	}
+
 	p.Dynasty = dynasty
 
 	var intros []string

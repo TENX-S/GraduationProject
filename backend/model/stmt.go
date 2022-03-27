@@ -53,6 +53,11 @@ ON DUPLICATE KEY UPDATE
 id = UUID_TO_BIN(:id)
 `
 
+const FetchAllPostId = `
+SELECT id
+FROM post
+`
+
 const FetchAllPosts = `
 SELECT *
 FROM post
