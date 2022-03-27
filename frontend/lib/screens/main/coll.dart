@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
@@ -108,30 +109,29 @@ class _CollPageState extends State<CollPage> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                // CachedNetworkImage(
-                //   imageUrl: posts[index].content.pic,
-                //   fit: BoxFit.fill,
-                //   placeholder: (context, url) => const Center(
-                //     child: SpinKitCubeGrid(
-                //       color: AppColor.primary,
-                //     ),
-                //   ),
-                // ),
-                Image.network(
-                  posts[index].content.pic,
+                CachedNetworkImage(
+                  imageUrl: posts[index].content.pic,
                   fit: BoxFit.fill,
-                  loadingBuilder: (context, child, progress) {
-                    if (progress == null) {
-                      return child;
-                    } else {
-                      return const Center(
-                        child: SpinKitCubeGrid(
-                          color: AppColor.primary,
-                        ),
-                      );
-                    }
-                  },
+                  placeholder: (context, url) => const Center(
+                    child: SpinKitCubeGrid(
+                      color: AppColor.primary,
+                    ),
+                  ),
                 ),
+                // Image.network(
+                //   posts[index].content.pic,
+                //   fit: BoxFit.fill,
+                //   loadingBuilder: (context, child, progress) {
+                //     if (progress == null) {
+                //       return child;
+                //     }
+                //     return const Center(
+                //       child: SpinKitCubeGrid(
+                //         color: AppColor.primary,
+                //       ),
+                //     );
+                //   },
+                // ),
                 Padding(
                   padding: const EdgeInsets.only(bottom: 5),
                   child: Text(
