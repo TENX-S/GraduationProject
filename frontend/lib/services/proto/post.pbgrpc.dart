@@ -18,6 +18,10 @@ class PostClient extends $grpc.Client {
       '/z.museum.post.Post/OnQuery',
       ($1.PostRequest value) => value.writeToBuffer(),
       ($core.List<$core.int> value) => $1.PostReply.fromBuffer(value));
+  static final _$onFetchAll = $grpc.ClientMethod<$1.Empty, $1.Posts>(
+      '/z.museum.post.Post/OnFetchAll',
+      ($1.Empty value) => value.writeToBuffer(),
+      ($core.List<$core.int> value) => $1.Posts.fromBuffer(value));
 
   PostClient($grpc.ClientChannel channel,
       {$grpc.CallOptions? options,
@@ -27,6 +31,11 @@ class PostClient extends $grpc.Client {
   $grpc.ResponseFuture<$1.PostReply> onQuery($1.PostRequest request,
       {$grpc.CallOptions? options}) {
     return $createUnaryCall(_$onQuery, request, options: options);
+  }
+
+  $grpc.ResponseFuture<$1.Posts> onFetchAll($1.Empty request,
+      {$grpc.CallOptions? options}) {
+    return $createUnaryCall(_$onFetchAll, request, options: options);
   }
 }
 
@@ -41,6 +50,13 @@ abstract class PostServiceBase extends $grpc.Service {
         false,
         ($core.List<$core.int> value) => $1.PostRequest.fromBuffer(value),
         ($1.PostReply value) => value.writeToBuffer()));
+    $addMethod($grpc.ServiceMethod<$1.Empty, $1.Posts>(
+        'OnFetchAll',
+        onFetchAll_Pre,
+        false,
+        false,
+        ($core.List<$core.int> value) => $1.Empty.fromBuffer(value),
+        ($1.Posts value) => value.writeToBuffer()));
   }
 
   $async.Future<$1.PostReply> onQuery_Pre(
@@ -48,6 +64,12 @@ abstract class PostServiceBase extends $grpc.Service {
     return onQuery(call, await request);
   }
 
+  $async.Future<$1.Posts> onFetchAll_Pre(
+      $grpc.ServiceCall call, $async.Future<$1.Empty> request) async {
+    return onFetchAll(call, await request);
+  }
+
   $async.Future<$1.PostReply> onQuery(
       $grpc.ServiceCall call, $1.PostRequest request);
+  $async.Future<$1.Posts> onFetchAll($grpc.ServiceCall call, $1.Empty request);
 }

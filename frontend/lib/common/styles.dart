@@ -46,11 +46,17 @@ class AppColor {
   static const btmNavBarBg = Color(0xfffbfbfb);
   static const btmNavBarActive = primary;
   static const btmNavBarInactive = Color(0xffd0d0d0);
+
+  static const collAppBar = Colors.white;
+  static const collAppBarTitle = Colors.black;
+  static const collTabIndicator = primary;
+  static const collTabUnselected = Colors.grey;
 }
 
 class AppFont {
-  static const chinese = 'FZFYSJW';
-  static const title = 'Vladimir';
+  static const label = 'FZFYKSJZ';
+  static const title = 'FZFYSJW';
+  static const logo = 'Vladimir';
   static const authWeight = FontWeight.w600;
   static const authBannerWordSpacing = 10.0;
   static const authBannerSize = 60.0;

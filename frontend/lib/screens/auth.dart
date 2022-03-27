@@ -132,7 +132,7 @@ class _AuthPageState extends State<AuthPage> {
           ),
           titleStyle: const TextStyle(
             color: AppColor.authTitle,
-            fontFamily: AppFont.title,
+            fontFamily: AppFont.logo,
             fontWeight: AppFont.authWeight,
             wordSpacing: AppFont.authBannerWordSpacing,
             fontSize: AppFont.authBannerSize,

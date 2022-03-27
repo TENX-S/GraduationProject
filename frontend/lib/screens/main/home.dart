@@ -60,84 +60,81 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.all(2),
-              child: SizedBox(
-                height: 244,
-                child: Column(
-                  children: [
-                    Flexible(
-                      flex: 1,
-                      child: Row(
-                        children: const [
-                          Flexible(
-                            flex: 1,
-                            child: CustomButton(
-                              name: '全景国博',
-                              imageIdx: 1,
-                            ),
+            SizedBox(
+              height: 244,
+              child: Column(
+                children: [
+                  Flexible(
+                    flex: 1,
+                    child: Row(
+                      children: const [
+                        Flexible(
+                          flex: 1,
+                          child: CustomButton(
+                            name: '全景国博',
+                            imageIdx: 1,
                           ),
-                          Flexible(
-                            flex: 1,
-                            child: CustomButton(
-                              name: '参观预约',
-                              imageIdx: 2,
-                            ),
+                        ),
+                        Flexible(
+                          flex: 1,
+                          child: CustomButton(
+                            name: '参观预约',
+                            imageIdx: 2,
                           ),
-                          Flexible(
-                            flex: 1,
-                            child: CustomButton(
-                              name: '讲解导览',
-                              imageIdx: 3,
-                            ),
+                        ),
+                        Flexible(
+                          flex: 1,
+                          child: CustomButton(
+                            name: '讲解导览',
+                            imageIdx: 3,
                           ),
-                          Flexible(
-                            flex: 1,
-                            child: CustomButton(
-                              name: '国博好课',
-                              imageIdx: 4,
-                            ),
+                        ),
+                        Flexible(
+                          flex: 1,
+                          child: CustomButton(
+                            name: '国博好课',
+                            imageIdx: 4,
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
-                    Flexible(
-                      flex: 1,
-                      child: Row(
-                        children: const [
-                          Flexible(
-                            flex: 1,
-                            child: CustomButton(
-                              name: '餐饮服务',
-                              imageIdx: 5,
-                            ),
+                  ),
+                  Flexible(
+                    flex: 1,
+                    child: Row(
+                      children: const [
+                        Flexible(
+                          flex: 1,
+                          child: CustomButton(
+                            name: '餐饮服务',
+                            imageIdx: 5,
                           ),
-                          Flexible(
-                            flex: 1,
-                            child: CustomButton(
-                              name: '国博文创',
-                              imageIdx: 6,
-                            ),
+                        ),
+                        Flexible(
+                          flex: 1,
+                          child: CustomButton(
+                            name: '国博文创',
+                            imageIdx: 6,
                           ),
-                          Flexible(
-                            flex: 1,
-                            child: CustomButton(
-                              name: '便民服务',
-                              imageIdx: 7,
-                            ),
+                        ),
+                        Flexible(
+                          flex: 1,
+                          child: CustomButton(
+                            name: '便民服务',
+                            imageIdx: 7,
                           ),
-                          Flexible(
-                            flex: 1,
-                            child: CustomButton(
-                              name: '国博课堂',
-                              imageIdx: 8,
-                            ),
+                        ),
+                        Flexible(
+                          flex: 1,
+                          child: CustomButton(
+                            name: '国博课堂',
+                            imageIdx: 8,
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
             Padding(
@@ -154,7 +151,7 @@ class _HomePageState extends State<HomePage> {
                 bottom: 10,
               ),
               child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Container(
                     decoration: const BoxDecoration(
@@ -169,8 +166,9 @@ class _HomePageState extends State<HomePage> {
                     child: Text(
                       '展览推荐',
                       style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 17,
+                        fontWeight: FontWeight.normal,
+                        fontFamily: AppFont.title,
+                        fontSize: 19,
                       ),
                     ),
                   ),
@@ -178,19 +176,20 @@ class _HomePageState extends State<HomePage> {
                   Padding(
                     padding: const EdgeInsets.only(right: 5),
                     child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: const [
                         Text(
                           '全部',
                           style: TextStyle(
                             color: Color(0xffE3916E),
                             decoration: TextDecoration.underline,
-                            fontSize: 16,
+                            fontSize: 17,
                           ),
                         ),
                         Icon(
                           Icons.arrow_forward_ios,
                           color: Color(0xffE3916E),
-                          size: 21,
+                          size: 24,
                         ),
                       ],
                     ),
@@ -210,12 +209,14 @@ class _HomePageState extends State<HomePage> {
                       children: List<Widget>.generate(
                         exhibitionArr.length,
                         (idx) => TableCell(
-                          child: MaterialButton(
-                            onPressed: () {},
-                            child: Image.asset(
-                              'assets/images/slider/${idx + 1}.jpg',
-                              // height: 145,
-                              // width: 60,
+                          child: Padding(
+                            padding: const EdgeInsets.only(left: 15),
+                            child: ClipRRect(
+                              borderRadius:
+                                  const BorderRadius.all(Radius.circular(4)),
+                              child: Image.asset(
+                                'assets/images/slider/${idx + 1}.jpg',
+                              ),
                             ),
                           ),
                         ),
@@ -226,13 +227,14 @@ class _HomePageState extends State<HomePage> {
                         exhibitionArr.length,
                         (idx) => TableCell(
                           child: Container(
-                            padding: const EdgeInsets.only(top: 5),
-                            margin: const EdgeInsets.only(left: 20),
+                            padding: const EdgeInsets.only(top: 10),
+                            margin: const EdgeInsets.only(left: 12),
                             child: AutoSizeText(
                               exhibitionArr[idx],
                               // textAlign: TextAlign.center,
                               style: const TextStyle(
-                                fontSize: 11,
+                                fontSize: 17,
+                                fontFamily: AppFont.label,
                               ),
                               maxLines: 2,
                             ),
@@ -267,21 +269,22 @@ class CustomButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: MaterialButton(
-        onPressed: () {},
-        child: Column(
-          children: [
-            Image.asset(
-              'assets/images/button/$imageIdx.png',
-              height: 85,
+      child: Column(
+        children: [
+          Image.asset(
+            'assets/images/button/$imageIdx.png',
+            height: 85,
+          ),
+          Text(
+            name,
+            style: const TextStyle(
+              fontFamily: AppFont.label,
+              fontWeight: FontWeight.w600,
+              fontSize: 18,
             ),
-            AutoSizeText(
-              name,
-              maxLines: 1,
-              minFontSize: 8,
-            ),
-          ],
-        ),
+            maxLines: 1,
+          ),
+        ],
       ),
     );
   }

@@ -6,10 +6,17 @@ package z.museum.post;
 
 service Post {
     rpc OnQuery(PostRequest) returns (PostReply) {}
+    rpc OnFetchAll(Empty) returns (Posts) {}
 }
 
 message PostRequest {
     string id = 1;
+}
+
+message Empty{}
+
+message Posts {
+    repeated PostReply posts = 1;
 }
 
 message PostReply {

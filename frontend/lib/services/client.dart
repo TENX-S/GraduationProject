@@ -72,4 +72,6 @@ class Client {
 
   Future<PostReply> onQuery(String uuid) async =>
       await post.onQuery(PostRequest(id: uuid));
+
+  Future<Posts> onFetchAll() async => await post.onFetchAll(Empty());
 }

@@ -30,6 +30,23 @@ const PostRequest$json = const {
 
 /// Descriptor for `PostRequest`. Decode as a `google.protobuf.DescriptorProto`.
 final $typed_data.Uint8List postRequestDescriptor = $convert.base64Decode('CgtQb3N0UmVxdWVzdBIOCgJpZBgBIAEoCVICaWQ=');
+@$core.Deprecated('Use emptyDescriptor instead')
+const Empty$json = const {
+  '1': 'Empty',
+};
+
+/// Descriptor for `Empty`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List emptyDescriptor = $convert.base64Decode('CgVFbXB0eQ==');
+@$core.Deprecated('Use postsDescriptor instead')
+const Posts$json = const {
+  '1': 'Posts',
+  '2': const [
+    const {'1': 'posts', '3': 1, '4': 3, '5': 11, '6': '.z.museum.post.PostReply', '10': 'posts'},
+  ],
+};
+
+/// Descriptor for `Posts`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List postsDescriptor = $convert.base64Decode('CgVQb3N0cxIuCgVwb3N0cxgBIAMoCzIYLnoubXVzZXVtLnBvc3QuUG9zdFJlcGx5UgVwb3N0cw==');
 @$core.Deprecated('Use postReplyDescriptor instead')
 const PostReply$json = const {
   '1': 'PostReply',

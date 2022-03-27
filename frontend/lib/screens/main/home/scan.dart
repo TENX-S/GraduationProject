@@ -45,7 +45,7 @@ class _ScanPageState extends State<ScanPage> {
           left: 0,
           child: IconButton(
             icon: const Icon(
-              Icons.arrow_back,
+              Icons.arrow_back_ios,
               color: AppColor.primary,
             ),
             onPressed: () => context.go(AppRouter.main),
