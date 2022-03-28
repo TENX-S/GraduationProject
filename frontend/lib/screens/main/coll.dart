@@ -46,13 +46,27 @@ class _CollPageState extends State<CollPage> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            Material(
-              elevation: 2,
-              child: Padding(
-                padding: const EdgeInsets.all(13.0),
-                child: ClipRRect(
-                  borderRadius: const BorderRadius.all(Radius.circular(8.0)),
-                  child: Image.asset('assets/images/ad3.jpg'),
+            ClipRRect(
+              borderRadius: BorderRadius.circular(5.0),
+              child: Container(
+                margin: const EdgeInsets.only(bottom: 6.0),
+                child: Padding(
+                  padding: const EdgeInsets.all(13.0),
+                  child: ClipRRect(
+                    borderRadius: const BorderRadius.all(Radius.circular(8.0)),
+                    child: Image.asset('assets/images/ad3.jpg'),
+                  ),
+                ),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(5.0),
+                  color: Colors.white,
+                  boxShadow: const [
+                    BoxShadow(
+                      color: Colors.grey,
+                      offset: Offset(0.0, 1.0),
+                      blurRadius: 6.0,
+                    ),
+                  ],
                 ),
               ),
             ),
@@ -97,14 +111,14 @@ class _CollPageState extends State<CollPage> {
     required List<PostReply> posts,
   }) {
     return Container(
-      padding: const EdgeInsets.only(top: 10),
+      padding: const EdgeInsets.only(top: 4),
       color: const Color.fromARGB(255, 236, 236, 234),
       child: MasonryGridView.count(
         primary: false,
         shrinkWrap: true,
-        mainAxisSpacing: 10,
-        crossAxisSpacing: 10,
-        padding: const EdgeInsets.symmetric(horizontal: 10),
+        mainAxisSpacing: 2,
+        crossAxisSpacing: 2,
+        padding: const EdgeInsets.symmetric(horizontal: 4),
         crossAxisCount: 2,
         itemCount: posts.length,
         itemBuilder: (BuildContext context, int index) {
