@@ -4,7 +4,7 @@ import 'package:go_router/go_router.dart';
 import '../screens/screen.dart';
 
 class AppRouter {
-  static const auth = '/'; // change to splash
+  static const auth = '/';
   static const main = '/main';
   static const post = '/post';
   static const scan = '/scan';

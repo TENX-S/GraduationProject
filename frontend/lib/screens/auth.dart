@@ -34,10 +34,6 @@ class _AuthPageState extends State<AuthPage> {
   }
 
   Future<String?> _onSignUp(SignupData input) async {
-    if (kDebugMode) {
-      print(input.name);
-      print(input.password);
-    }
     final user = User(
       email: input.name!,
       password: input.password!,
@@ -64,9 +60,6 @@ class _AuthPageState extends State<AuthPage> {
   }
 
   Future<String?> _onLogin(LoginData input) async {
-    if (kDebugMode) {
-      print(input);
-    }
     final user = User(
       email: input.name,
       password: input.password,
