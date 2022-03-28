@@ -156,12 +156,13 @@ class _PostPageState extends State<PostPage> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.center,
-                          children: const [
-                            Icon(
-                              Icons.star_border_rounded,
+                          children: [
+                            IconButton(
+                              icon: const Icon(Icons.star_border_rounded),
                               color: AppColor.postCollectButton,
+                              onPressed: () {},
                             ),
-                            Text(
+                            const Text(
                               '收藏',
                               style: TextStyle(
                                 fontFamily: AppFont.label,
@@ -177,25 +178,37 @@ class _PostPageState extends State<PostPage> {
                   ),
                   Padding(
                     padding: const EdgeInsets.only(top: 10),
-                    child: Column(
-                      children: List<Widget>.generate(
-                        descs.length,
-                        (idx) => Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 2),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              Text(
-                                descs[idx],
-                                style: const TextStyle(
-                                  color: AppColor.postDescr,
-                                  fontSize: 12,
-                                ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Column(
+                          children: List<Widget>.generate(
+                            descs.length,
+                            (idx) => Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 2),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    descs[idx],
+                                    style: const TextStyle(
+                                      color: AppColor.postDescr,
+                                      fontSize: 12,
+                                    ),
+                                  ),
+                                ],
                               ),
-                            ],
+                            ),
                           ),
                         ),
-                      ),
+                        Text(
+                          post.dynasty,
+                          style: const TextStyle(
+                            color: AppColor.collAppBarTitle,
+                            fontSize: 20,
+                          ),
+                        )
+                      ],
                     ),
                   ),
                 ],
