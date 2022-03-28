@@ -182,14 +182,14 @@ class _HomePageState extends State<HomePage> {
                         Text(
                           '全部',
                           style: TextStyle(
-                            color: Color(0xffE3916E),
+                            color: AppColor.homeDetail,
                             decoration: TextDecoration.underline,
                             fontSize: 15,
                           ),
                         ),
                         Icon(
                           Icons.arrow_forward_ios,
-                          color: Color(0xffE3916E),
+                          color: AppColor.homeDetail,
                           size: 24,
                         ),
                       ],
@@ -234,7 +234,7 @@ class _HomePageState extends State<HomePage> {
                               exhibitionArr[idx],
                               // textAlign: TextAlign.center,
                               style: const TextStyle(
-                                fontSize: 17,
+                                fontSize: 15,
                                 fontFamily: AppFont.label,
                               ),
                               maxLines: 2,

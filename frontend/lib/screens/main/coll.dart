@@ -2,14 +2,12 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-import 'package:frontend/services/proto/post.pb.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../../services/client.dart';
+import '../../common/router.dart';
 import '../../common/styles.dart';
-
-// void here(BuildContext context, String query) {
-//   context.push('${AppRouter.post}?query=$query&from=${AppRouter.coll}?');
-// }
+import '../../models/post.dart';
 
 class CollPage extends StatefulWidget {
   const CollPage({Key? key}) : super(key: key);
@@ -77,24 +75,15 @@ class _CollPageState extends State<CollPage> {
                   if (snapshot.hasData) {
                     return _buildGridView(
                       context: context,
-                      posts: snapshot.data as List<PostReply>,
-                    );
-                  } else {
-                    return const Expanded(
-                      child: Center(
-                        child: SpinKitCubeGrid(
-                          color: AppColor.primary,
-                        ),
-                      ),
+                      posts: snapshot.data as List<Post>,
                     );
                   }
-                } else {
-                  return const Center(
-                    child: SpinKitCubeGrid(
-                      color: AppColor.primary,
-                    ),
-                  );
                 }
+                return const Center(
+                  child: SpinKitCubeGrid(
+                    color: AppColor.primary,
+                  ),
+                );
               },
             ),
           ],
@@ -103,12 +92,16 @@ class _CollPageState extends State<CollPage> {
     );
   }
 
-  Future<List<PostReply>>? _fetchAllPosts() async =>
-      Client().onFetchAll().then((p) => p.posts);
+  Future<List<Post>>? _fetchAllPosts() async => Client().onFetchAll().then((p) {
+        for (var reply in p.posts) {
+          posts[reply.content.id] = Post.fromReply(reply: reply);
+        }
+        return posts.values.toList();
+      });
 
   Widget _buildGridView({
     required BuildContext context,
-    required List<PostReply> posts,
+    required List<Post> posts,
   }) {
     return Container(
       padding: const EdgeInsets.only(top: 4),
@@ -122,42 +115,49 @@ class _CollPageState extends State<CollPage> {
         crossAxisCount: 2,
         itemCount: posts.length,
         itemBuilder: (BuildContext context, int index) {
-          return Card(
-            shape: const RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(
-                Radius.circular(
-                  5,
+          return GestureDetector(
+            onTap: () => context.push(
+                '${AppRouter.post}?query=${posts[index].id}&from=${AppRouter.coll}?'),
+            child: Card(
+              shape: const RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(
+                  Radius.circular(
+                    5,
+                  ),
                 ),
               ),
-            ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 10),
-                  child: CachedNetworkImage(
-                    imageUrl: posts[index].content.pic,
-                    fit: BoxFit.fill,
-                    placeholder: (context, url) => const Center(
-                      child: SpinKitCubeGrid(
-                        color: AppColor.primary,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 10),
+                    child: CachedNetworkImage(
+                      imageUrl: posts[index].pic,
+                      fit: BoxFit.fill,
+                      placeholder: (context, url) => const SizedBox(
+                        height: 200,
+                        child: Center(
+                          child: SpinKitCubeGrid(
+                            color: AppColor.primary,
+                          ),
+                        ),
                       ),
                     ),
                   ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(5, 0, 5, 5),
-                  child: Text(
-                    posts[index].content.name,
-                    textAlign: TextAlign.start,
-                    style: const TextStyle(
-                      fontFamily: AppFont.label,
-                      color: AppColor.collAppBarTitle,
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(5, 0, 5, 5),
+                    child: Text(
+                      posts[index].name,
+                      textAlign: TextAlign.start,
+                      style: const TextStyle(
+                        fontFamily: AppFont.label,
+                        color: AppColor.collAppBarTitle,
+                      ),
+                      maxLines: 2,
                     ),
-                    maxLines: 2,
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           );
         },

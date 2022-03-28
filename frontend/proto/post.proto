@@ -26,11 +26,12 @@ message PostReply {
 }
 
 message PostContent {
-    string name = 1;
-    string dynasty = 2;
-    string descr = 3;
-    string intro = 4;
-    string pic = 5;
+    string id = 1;
+    string name = 2;
+    string dynasty = 3;
+    string descr = 4;
+    string intro = 5;
+    string pic = 6;
 }
 
 enum PostError {

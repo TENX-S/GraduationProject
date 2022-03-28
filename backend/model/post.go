@@ -26,7 +26,7 @@ type Post struct {
 }
 
 func (p *Post) PackedField() string {
-	return str.Join([]string{p.Name, p.Dynasty, p.Descr, p.Intro, p.Pic}, "|")
+	return str.Join([]string{p.Id.String(), p.Name, p.Dynasty, p.Descr, p.Intro, p.Pic}, "|")
 }
 
 func (p Post) initQRCode() {
@@ -117,13 +117,14 @@ func mapUUID2Str(src []uuid.UUID) []string {
 
 func (p *Post) mapStr2Post(val string) {
 	arr := str.Split(val, "|")
-	if len(arr) != 5 {
+	if len(arr) != 6 {
 		panic("oh blooding hell")
 	}
 
-	p.Name = arr[0]
-	p.Dynasty = arr[1]
-	p.Descr = arr[2]
-	p.Intro = arr[3]
-	p.Pic = arr[4]
+	p.Id = uuid.MustParse(arr[0])
+	p.Name = arr[1]
+	p.Dynasty = arr[2]
+	p.Descr = arr[3]
+	p.Intro = arr[4]
+	p.Pic = arr[5]
 }

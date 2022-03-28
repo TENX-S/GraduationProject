@@ -47,14 +47,19 @@ class AppColor {
   static const btmNavBarActive = primary;
   static const btmNavBarInactive = Color(0xffd0d0d0);
 
+  static const homeDetail = Color(0xffE3916E);
+
   static const collAppBar = Colors.white;
   static const collAppBarTitle = Colors.black;
   static const collTabIndicator = primary;
   static const collTabUnselected = Colors.grey;
+
+  static const postCollectButton = Colors.white;
+  static const postDescr = Colors.grey;
 }
 
 class AppFont {
-  static const label = 'FZFYKSJZ';
+  static const label = 'NSSC';
   static const title = 'FZFYSJW';
   static const logo = 'Vladimir';
   static const authWeight = FontWeight.w600;

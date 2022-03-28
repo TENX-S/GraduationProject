@@ -67,13 +67,14 @@ final $typed_data.Uint8List postReplyDescriptor = $convert.base64Decode('CglQb3N
 const PostContent$json = const {
   '1': 'PostContent',
   '2': const [
-    const {'1': 'name', '3': 1, '4': 1, '5': 9, '10': 'name'},
-    const {'1': 'dynasty', '3': 2, '4': 1, '5': 9, '10': 'dynasty'},
-    const {'1': 'descr', '3': 3, '4': 1, '5': 9, '10': 'descr'},
-    const {'1': 'intro', '3': 4, '4': 1, '5': 9, '10': 'intro'},
-    const {'1': 'pic', '3': 5, '4': 1, '5': 9, '10': 'pic'},
+    const {'1': 'id', '3': 1, '4': 1, '5': 9, '10': 'id'},
+    const {'1': 'name', '3': 2, '4': 1, '5': 9, '10': 'name'},
+    const {'1': 'dynasty', '3': 3, '4': 1, '5': 9, '10': 'dynasty'},
+    const {'1': 'descr', '3': 4, '4': 1, '5': 9, '10': 'descr'},
+    const {'1': 'intro', '3': 5, '4': 1, '5': 9, '10': 'intro'},
+    const {'1': 'pic', '3': 6, '4': 1, '5': 9, '10': 'pic'},
   ],
 };
 
 /// Descriptor for `PostContent`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List postContentDescriptor = $convert.base64Decode('CgtQb3N0Q29udGVudBISCgRuYW1lGAEgASgJUgRuYW1lEhgKB2R5bmFzdHkYAiABKAlSB2R5bmFzdHkSFAoFZGVzY3IYAyABKAlSBWRlc2NyEhQKBWludHJvGAQgASgJUgVpbnRybxIQCgNwaWMYBSABKAlSA3BpYw==');
+final $typed_data.Uint8List postContentDescriptor = $convert.base64Decode('CgtQb3N0Q29udGVudBIOCgJpZBgBIAEoCVICaWQSEgoEbmFtZRgCIAEoCVIEbmFtZRIYCgdkeW5hc3R5GAMgASgJUgdkeW5hc3R5EhQKBWRlc2NyGAQgASgJUgVkZXNjchIUCgVpbnRybxgFIAEoCVIFaW50cm8SEAoDcGljGAYgASgJUgNwaWM=');

@@ -209,16 +209,18 @@ class PostReply extends $pb.GeneratedMessage {
 
 class PostContent extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'PostContent', package: const $pb.PackageName(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'z.museum.post'), createEmptyInstance: create)
-    ..aOS(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'name')
-    ..aOS(2, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'dynasty')
-    ..aOS(3, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'descr')
-    ..aOS(4, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'intro')
-    ..aOS(5, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'pic')
+    ..aOS(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'id')
+    ..aOS(2, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'name')
+    ..aOS(3, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'dynasty')
+    ..aOS(4, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'descr')
+    ..aOS(5, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'intro')
+    ..aOS(6, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'pic')
     ..hasRequiredFields = false
   ;
 
   PostContent._() : super();
   factory PostContent({
+    $core.String? id,
     $core.String? name,
     $core.String? dynasty,
     $core.String? descr,
@@ -226,6 +228,9 @@ class PostContent extends $pb.GeneratedMessage {
     $core.String? pic,
   }) {
     final _result = create();
+    if (id != null) {
+      _result.id = id;
+    }
     if (name != null) {
       _result.name = name;
     }
@@ -265,48 +270,57 @@ class PostContent extends $pb.GeneratedMessage {
   static PostContent? _defaultInstance;
 
   @$pb.TagNumber(1)
-  $core.String get name => $_getSZ(0);
+  $core.String get id => $_getSZ(0);
   @$pb.TagNumber(1)
-  set name($core.String v) { $_setString(0, v); }
+  set id($core.String v) { $_setString(0, v); }
   @$pb.TagNumber(1)
-  $core.bool hasName() => $_has(0);
+  $core.bool hasId() => $_has(0);
   @$pb.TagNumber(1)
-  void clearName() => clearField(1);
+  void clearId() => clearField(1);
 
   @$pb.TagNumber(2)
-  $core.String get dynasty => $_getSZ(1);
+  $core.String get name => $_getSZ(1);
   @$pb.TagNumber(2)
-  set dynasty($core.String v) { $_setString(1, v); }
+  set name($core.String v) { $_setString(1, v); }
   @$pb.TagNumber(2)
-  $core.bool hasDynasty() => $_has(1);
+  $core.bool hasName() => $_has(1);
   @$pb.TagNumber(2)
-  void clearDynasty() => clearField(2);
+  void clearName() => clearField(2);
 
   @$pb.TagNumber(3)
-  $core.String get descr => $_getSZ(2);
+  $core.String get dynasty => $_getSZ(2);
   @$pb.TagNumber(3)
-  set descr($core.String v) { $_setString(2, v); }
+  set dynasty($core.String v) { $_setString(2, v); }
   @$pb.TagNumber(3)
-  $core.bool hasDescr() => $_has(2);
+  $core.bool hasDynasty() => $_has(2);
   @$pb.TagNumber(3)
-  void clearDescr() => clearField(3);
+  void clearDynasty() => clearField(3);
 
   @$pb.TagNumber(4)
-  $core.String get intro => $_getSZ(3);
+  $core.String get descr => $_getSZ(3);
   @$pb.TagNumber(4)
-  set intro($core.String v) { $_setString(3, v); }
+  set descr($core.String v) { $_setString(3, v); }
   @$pb.TagNumber(4)
-  $core.bool hasIntro() => $_has(3);
+  $core.bool hasDescr() => $_has(3);
   @$pb.TagNumber(4)
-  void clearIntro() => clearField(4);
+  void clearDescr() => clearField(4);
 
   @$pb.TagNumber(5)
-  $core.String get pic => $_getSZ(4);
+  $core.String get intro => $_getSZ(4);
   @$pb.TagNumber(5)
-  set pic($core.String v) { $_setString(4, v); }
+  set intro($core.String v) { $_setString(4, v); }
   @$pb.TagNumber(5)
-  $core.bool hasPic() => $_has(4);
+  $core.bool hasIntro() => $_has(4);
   @$pb.TagNumber(5)
-  void clearPic() => clearField(5);
+  void clearIntro() => clearField(5);
+
+  @$pb.TagNumber(6)
+  $core.String get pic => $_getSZ(5);
+  @$pb.TagNumber(6)
+  set pic($core.String v) { $_setString(5, v); }
+  @$pb.TagNumber(6)
+  $core.bool hasPic() => $_has(5);
+  @$pb.TagNumber(6)
+  void clearPic() => clearField(6);
 }
 

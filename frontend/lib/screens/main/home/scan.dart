@@ -84,10 +84,10 @@ class _ScanPageState extends State<ScanPage> {
     });
     controller.scannedDataStream.listen((scanData) {
       try {
-        var candidate = scanData.code!;
-        Uuid.parse(candidate);
+        var id = scanData.code!;
+        Uuid.parse(id);
         context.go(
-          '${AppRouter.post}?query=$candidate&from=${AppRouter.scan}',
+          '${AppRouter.post}?query=$id&from=${AppRouter.scan}',
         );
         return;
       } on FormatException {

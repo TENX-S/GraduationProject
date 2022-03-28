@@ -22,7 +22,7 @@ func (s *PostService) OnQuery(ctx context.Context, in *PostRequest) (*PostReply,
 	switch res {
 	case SUCCESS:
 		L.Printf("[POST:QUERY] [SUCCESS:%s]", in.Id)
-		reply = &PostReply{Success: true, Content: &PostContent{Name: p.Name, Dynasty: p.Dynasty, Descr: p.Descr, Intro: p.Intro, Pic: p.Pic}, Error: nil}
+		reply = &PostReply{Success: true, Content: &PostContent{Id: p.Id.String(), Name: p.Name, Dynasty: p.Dynasty, Descr: p.Descr, Intro: p.Intro, Pic: p.Pic}, Error: nil}
 		return reply, nil
 	case NONEXISTENT_POST:
 		L.Printf("[POST:QUERY] [FAIL:NONEXISTENT_POST:%s]", in.Id)
@@ -44,7 +44,7 @@ func (s *PostService) OnFetchAll(ctx context.Context, in *Empty) (*Posts, error)
 	var posts []*PostReply
 
 	for _, p := range FetchAll() {
-		posts = append(posts, &PostReply{Success: true, Content: &PostContent{Name: p.Name, Dynasty: p.Dynasty, Descr: p.Descr, Intro: p.Intro, Pic: p.Pic}, Error: nil})
+		posts = append(posts, &PostReply{Success: true, Content: &PostContent{Id: p.Id.String(), Name: p.Name, Dynasty: p.Dynasty, Descr: p.Descr, Intro: p.Intro, Pic: p.Pic}, Error: nil})
 	}
 	L.Printf("[POST:FETCH_ALL] [SUCCESS:%d posts]", len(posts))
 	return &Posts{Posts: posts}, nil
