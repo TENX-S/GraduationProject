@@ -1,5 +1,3 @@
-late User currentUser;
-
 class User {
   String email;
   String password;
@@ -11,4 +9,13 @@ class User {
     required this.email,
     required this.password,
   });
+
+  User.fromDefault()
+      : email = '',
+        password = '',
+        name = '游客',
+        gender = '',
+        birthday = '';
 }
+
+User currUser = User.fromDefault();

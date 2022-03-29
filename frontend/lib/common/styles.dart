@@ -43,25 +43,30 @@ class AppColor {
 
   static const tipBg = Color.fromARGB(255, 247, 238, 213);
   static const tipText = Color.fromRGBO(141, 141, 141, 1.0);
-  static const btmNavBarBg = Color(0xfffbfbfb);
+  static const btmNavBarBg = Color(0xFFFBFBFB);
   static const btmNavBarActive = primary;
-  static const btmNavBarInactive = Color(0xffd0d0d0);
+  static const btmNavBarInactive = Color(0xFFD0D0D0);
 
-  static const homeDetail = Color(0xffE3916E);
+  static const homeDetail = Color(0xFFE3916E);
 
   static const collAppBar = Colors.white;
-  static const collAppBarTitle = Colors.black;
+  static const title = Colors.black;
   static const collTabIndicator = primary;
   static const collTabUnselected = Colors.grey;
 
   static const postCollectButton = Colors.white;
   static const postDescr = Colors.grey;
+
+  static const userBg = Color(0xFFF3F2F2);
+  static const userAvatarBg = Color(0xFFAAAAAA);
+  static const userMenuBarBg = Color(0xFFFEFEFE);
 }
 
 class AppFont {
   static const label = 'NSSC';
   static const title = 'FZFYSJW';
   static const logo = 'Vladimir';
+  static const dynasty = 'KaiTi';
   static const authWeight = FontWeight.w600;
   static const authBannerWordSpacing = 10.0;
   static const authBannerSize = 60.0;

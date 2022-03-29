@@ -78,7 +78,7 @@ class _PostPageState extends State<PostPage> {
         leading: IconButton(
           icon: const Icon(
             Icons.arrow_back_ios,
-            color: AppColor.collAppBarTitle,
+            color: AppColor.title,
           ),
           onPressed: () {
             switch (widget.from) {
@@ -95,7 +95,7 @@ class _PostPageState extends State<PostPage> {
           '藏品详情',
           style: TextStyle(
             fontFamily: AppFont.title,
-            color: AppColor.collAppBarTitle,
+            color: AppColor.title,
             fontSize: 23,
           ),
         ),
@@ -104,7 +104,7 @@ class _PostPageState extends State<PostPage> {
             padding: EdgeInsets.only(right: 10),
             child: Icon(
               Icons.ios_share,
-              color: AppColor.collAppBarTitle,
+              color: AppColor.title,
             ),
           ),
         ],
@@ -112,8 +112,6 @@ class _PostPageState extends State<PostPage> {
       body: SingleChildScrollView(
         physics: const BouncingScrollPhysics(),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             CachedNetworkImage(
               height: 400,
@@ -130,48 +128,55 @@ class _PostPageState extends State<PostPage> {
             ),
             const Divider(
               thickness: 10,
+              color: AppColor.userBg,
             ),
             Padding(
               padding: const EdgeInsets.all(15.0),
               child: Column(
                 children: [
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(
-                        post.name,
-                        style: const TextStyle(
-                          color: AppColor.collAppBarTitle,
-                          fontFamily: AppFont.title,
-                          fontSize: 18,
+                      Flexible(
+                        flex: 5,
+                        child: Text(
+                          post.name,
+                          style: const TextStyle(
+                            color: AppColor.title,
+                            fontFamily: AppFont.title,
+                            fontSize: 17,
+                          ),
                         ),
                       ),
-                      Expanded(child: Container()),
-                      MaterialButton(
-                        elevation: 0,
-                        height: 30,
-                        minWidth: 90,
-                        onPressed: () {},
-                        color: AppColor.primary,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            IconButton(
-                              icon: const Icon(Icons.star_border_rounded),
-                              color: AppColor.postCollectButton,
-                              onPressed: () {},
-                            ),
-                            const Text(
-                              '收藏',
-                              style: TextStyle(
-                                fontFamily: AppFont.label,
+                      SizedBox(
+                        height: 37,
+                        width: 100,
+                        child: MaterialButton(
+                          elevation: 0,
+                          onPressed: () {},
+                          color: AppColor.primary,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              IconButton(
+                                padding: EdgeInsets.zero,
+                                constraints: const BoxConstraints(),
+                                icon: const Icon(Icons.star_border_rounded),
                                 color: AppColor.postCollectButton,
-                                fontSize: 12,
-                                decoration: TextDecoration.underline,
+                                onPressed: () {},
                               ),
-                            )
-                          ],
+                              const Text(
+                                '收藏',
+                                style: TextStyle(
+                                  fontFamily: AppFont.label,
+                                  color: AppColor.postCollectButton,
+                                  fontSize: 13,
+                                  decoration: TextDecoration.underline,
+                                ),
+                              )
+                            ],
+                          ),
                         ),
                       ),
                     ],
@@ -181,31 +186,45 @@ class _PostPageState extends State<PostPage> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Column(
-                          children: List<Widget>.generate(
-                            descs.length,
-                            (idx) => Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 2),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    descs[idx],
-                                    style: const TextStyle(
-                                      color: AppColor.postDescr,
-                                      fontSize: 12,
+                        Flexible(
+                          flex: 11,
+                          child: Column(
+                            children: List<Widget>.generate(
+                              descs.length,
+                              (idx) => Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 2),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    Flexible(
+                                      child: Text(
+                                        descs[idx],
+                                        maxLines: 3,
+                                        overflow: TextOverflow.ellipsis,
+                                        style: const TextStyle(
+                                          color: AppColor.postDescr,
+                                          fontSize: 12,
+                                        ),
+                                      ),
                                     ),
-                                  ),
-                                ],
+                                  ],
+                                ),
                               ),
                             ),
                           ),
                         ),
-                        Text(
-                          post.dynasty,
-                          style: const TextStyle(
-                            color: AppColor.collAppBarTitle,
-                            fontSize: 20,
+                        Expanded(
+                          flex: 4,
+                          child: Center(
+                            child: Text(
+                              post.dynasty,
+                              style: const TextStyle(
+                                color: AppColor.title,
+                                fontFamily: AppFont.dynasty,
+                                fontSize: 20,
+                              ),
+                            ),
                           ),
                         )
                       ],
@@ -216,6 +235,7 @@ class _PostPageState extends State<PostPage> {
             ),
             const Divider(
               thickness: 10,
+              color: AppColor.userBg,
             ),
             Padding(
               padding: const EdgeInsets.all(15),
@@ -256,7 +276,7 @@ class Error extends StatelessWidget {
         leading: IconButton(
           icon: const Icon(
             Icons.arrow_back_ios,
-            color: AppColor.collAppBarTitle,
+            color: AppColor.title,
           ),
           onPressed: () => context.go(AppRouter.main),
         ),

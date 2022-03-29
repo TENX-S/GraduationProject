@@ -38,6 +38,7 @@ final GoRouter router = GoRouter(routes: <GoRoute>[
   ),
   GoRoute(
     path: AppRouter.settings,
-    builder: (BuildContext context, GoRouterState state) => const AuthPage(),
+    builder: (BuildContext context, GoRouterState state) =>
+        const SettingsPage(),
   ),
 ]);
