@@ -28,14 +28,14 @@ class _CollPageState extends State<CollPage> {
           '馆藏精品',
           style: TextStyle(
             fontFamily: AppFont.title,
-            color: AppColor.collAppBarTitle,
+            color: AppColor.title,
             fontWeight: FontWeight.normal,
             fontSize: 23,
           ),
         ),
         actions: [
           IconButton(
-            color: AppColor.collAppBarTitle,
+            color: AppColor.title,
             onPressed: () => {},
             icon: const Icon(Icons.search),
           ),
@@ -151,7 +151,7 @@ class _CollPageState extends State<CollPage> {
                       textAlign: TextAlign.start,
                       style: const TextStyle(
                         fontFamily: AppFont.label,
-                        color: AppColor.collAppBarTitle,
+                        color: AppColor.title,
                       ),
                       maxLines: 2,
                     ),

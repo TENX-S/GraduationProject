@@ -56,6 +56,7 @@ class _AuthPageState extends State<AuthPage> {
           break;
       }
     }
+    currUser.email = input.name!;
     return null;
   }
 
@@ -83,7 +84,7 @@ class _AuthPageState extends State<AuthPage> {
           break;
       }
     }
-    currentUser = user;
+    currUser.email = input.name;
     return null;
   }
 
