@@ -21,8 +21,8 @@ class _CollPageState extends State<CollPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        centerTitle: false,
         elevation: 0,
+        centerTitle: false,
         backgroundColor: AppColor.collAppBar,
         title: const Text(
           '馆藏精品',

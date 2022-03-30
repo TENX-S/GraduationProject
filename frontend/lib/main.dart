@@ -8,7 +8,6 @@ import 'package:flutter_native_splash/flutter_native_splash.dart';
 
 import 'common/router.dart';
 import 'common/styles.dart';
-import 'services/client.dart';
 
 void main() {
   var widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
@@ -16,14 +15,23 @@ void main() {
   SystemChrome.setPreferredOrientations(
       [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
 
-  runApp(const InitStateless(
-    init: confirmHost,
-    child: App(),
-  ));
+  runApp(const App());
 }
 
-class App extends StatelessWidget {
+class App extends StatefulWidget {
   const App({Key? key}) : super(key: key);
+
+  @override
+  State<App> createState() => _AppState();
+}
+
+class _AppState extends State<App> {
+  @override
+  initState() {
+    Future.delayed(const Duration(seconds: 1), FlutterNativeSplash.remove);
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) => MaterialApp.router(
         debugShowCheckedModeBanner: false,
@@ -45,29 +53,4 @@ class App extends StatelessWidget {
           Locale('zh'),
         ],
       );
-}
-
-class InitStateless extends StatefulWidget {
-  final Function init;
-  final Widget child;
-
-  const InitStateless({Key? key, required this.init, required this.child})
-      : super(key: key);
-
-  @override
-  State<InitStateless> createState() => _InitStatelessState();
-}
-
-class _InitStatelessState extends State<InitStateless> {
-  @override
-  initState() {
-    widget.init();
-    Future.delayed(const Duration(seconds: 1), FlutterNativeSplash.remove);
-    super.initState();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return widget.child;
-  }
 }
