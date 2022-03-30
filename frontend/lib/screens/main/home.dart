@@ -24,10 +24,17 @@ class _HomePageState extends State<HomePage> {
           icon: const Icon(Icons.notifications_none),
           onPressed: () {},
         ),
-        title: Image.asset(
-          'assets/images/title.png',
-          scale: 0.5,
-          height: 60,
+        // title: Image.asset(
+        //   'assets/images/title.png',
+        //   scale: 0.5,
+        //   height: 60,
+        // ),
+        title: const Text(
+          'Museum',
+          style: TextStyle(
+            fontFamily: AppFont.logo,
+            fontSize: 40,
+          ),
         ),
         actions: [
           IconButton(

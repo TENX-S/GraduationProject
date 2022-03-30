@@ -84,11 +84,18 @@ class _ScanPageState extends State<ScanPage> {
     });
     controller.scannedDataStream.listen((scanData) {
       try {
-        var id = scanData.code!;
+        if (result != null) {
+          return;
+        }
+        controller.pauseCamera();
+        result = scanData;
+        var id = result!.code!;
         Uuid.parse(id);
         context.go(
           '${AppRouter.post}?query=$id&from=${AppRouter.scan}',
         );
+        result = null;
+        controller.resumeCamera();
         return;
       } on FormatException {
         return;
