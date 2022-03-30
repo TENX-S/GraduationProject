@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:frontend/common/tip.dart';
 import 'package:go_router/go_router.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 
@@ -68,7 +70,10 @@ class _SettingsPageState extends State<SettingsPage> {
                 title: '清除缓存',
               ),
               MenuBar(
-                onPressed: () {},
+                onPressed: () => showTip(
+                  msg: '当前已是最新版本',
+                  gravity: ToastGravity.CENTER,
+                ),
                 icon: const Icon(LineAwesomeIcons.info_circle),
                 title: '当前版本',
               ),
@@ -86,8 +91,9 @@ class _SettingsPageState extends State<SettingsPage> {
                   child: Text(
                     '退出登录',
                     style: TextStyle(
-                      fontSize: 17,
                       color: Colors.white,
+                      decoration: TextDecoration.underline,
+                      fontSize: 15,
                     ),
                   ),
                 ),

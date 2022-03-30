@@ -99,12 +99,15 @@ class _PostPageState extends State<PostPage> {
             fontSize: 23,
           ),
         ),
-        actions: const [
+        actions: [
           Padding(
-            padding: EdgeInsets.only(right: 10),
-            child: Icon(
-              Icons.ios_share,
-              color: AppColor.title,
+            padding: const EdgeInsets.only(right: 10),
+            child: IconButton(
+              icon: const Icon(
+                Icons.ios_share,
+                color: AppColor.title,
+              ),
+              onPressed: () {},
             ),
           ),
         ],

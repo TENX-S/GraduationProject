@@ -65,6 +65,7 @@ class _NamePageState extends State<NamePage> {
                     '保存',
                     style: TextStyle(
                       color: AppColor.primary,
+                      decoration: TextDecoration.underline,
                       fontFamily: AppFont.title,
                       fontSize: 15,
                     ),

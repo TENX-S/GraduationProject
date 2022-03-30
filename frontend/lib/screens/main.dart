@@ -1,6 +1,7 @@
 import 'package:bottom_navy_bar/bottom_navy_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:provider/provider.dart';
 
 import './screen.dart';
@@ -58,6 +59,7 @@ class _MainPageState extends State<MainPage> {
             },
             children: const <Widget>[
               HomePage(),
+              ExpoPage(),
               CollPage(),
               UserPage(),
             ],
@@ -83,6 +85,13 @@ class _MainPageState extends State<MainPage> {
           BottomNavyBarItem(
             title: const Text('首页'),
             icon: const Icon(Icons.home_outlined),
+            textAlign: TextAlign.center,
+            activeColor: AppColor.btmNavBarActive,
+            inactiveColor: AppColor.btmNavBarInactive,
+          ),
+          BottomNavyBarItem(
+            title: const Text('展览'),
+            icon: const Icon(MdiIcons.post),
             textAlign: TextAlign.center,
             activeColor: AppColor.btmNavBarActive,
             inactiveColor: AppColor.btmNavBarInactive,

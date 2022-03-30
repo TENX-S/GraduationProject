@@ -41,8 +41,8 @@ class AppColor {
   static const authAccent = contrast;
   static const authCard = contrast;
 
-  static const tipBg = Color.fromARGB(255, 247, 238, 213);
-  static const tipText = Color.fromRGBO(141, 141, 141, 1.0);
+  static const tipBg = Color(0xFF575757);
+  static const tipText = Color(0xFFFBFBFB);
   static const btmNavBarBg = Color(0xFFFBFBFB);
   static const btmNavBarActive = primary;
   static const btmNavBarInactive = Color(0xFFD0D0D0);

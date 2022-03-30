@@ -9,6 +9,7 @@ class AppRouter {
   static const post = '/post';
   static const scan = '/scan';
   static const coll = '/coll';
+  static const expo = '/expo';
   static const settings = '/settings';
   static const data = '/data';
   static const chgpswd = '/chgpswd';
@@ -41,6 +42,10 @@ final GoRouter router = GoRouter(routes: <GoRoute>[
   GoRoute(
     path: AppRouter.coll,
     builder: (BuildContext context, GoRouterState state) => const CollPage(),
+  ),
+  GoRoute(
+    path: AppRouter.expo,
+    builder: (BuildContext context, GoRouterState state) => const ExpoPage(),
   ),
   GoRoute(
     path: AppRouter.settings,
