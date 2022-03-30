@@ -25,7 +25,7 @@ class _HomePageState extends State<HomePage> {
           onPressed: () {},
         ),
         title: Image.asset(
-          'assets/images/title.jpg',
+          'assets/images/title.png',
           scale: 0.5,
           height: 60,
         ),
