@@ -1,21 +1,41 @@
-class User {
-  String email;
-  String password;
-  String? name;
-  String? gender;
-  String? birthday;
+import 'package:flutter/material.dart';
 
-  User({
-    required this.email,
-    required this.password,
-  });
+class User extends ChangeNotifier {
+  String? _email;
+  String? _password;
+  String? _name;
+  String? _gender;
+  String? _birthday;
 
-  User.fromDefault()
-      : email = '',
-        password = '',
-        name = '游客',
-        gender = '',
-        birthday = '';
+  String get email => _email ?? '';
+  String get password => _password ?? '';
+  String get name => _name ?? '游客';
+  String get gender => _gender ?? '';
+  String get birthday => _birthday ?? '';
+
+  set email(String value) {
+    _email = value;
+    notifyListeners();
+  }
+
+  set password(String value) {
+    _password = value;
+  }
+
+  set name(String value) {
+    _name = value;
+    notifyListeners();
+  }
+
+  set gender(String value) {
+    _gender = value;
+    notifyListeners();
+  }
+
+  set birthday(String value) {
+    _birthday = value;
+    notifyListeners();
+  }
 }
 
-User currUser = User.fromDefault();
+User currUser = User();

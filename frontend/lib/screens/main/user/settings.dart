@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 
+import '../../../common/router.dart';
 import '../../../common/styles.dart';
 import '../user.dart';
 
@@ -42,17 +43,17 @@ class _SettingsPageState extends State<SettingsPage> {
           Column(
             children: [
               MenuBar(
-                onPressed: () {},
+                onPressed: () => context.push(AppRouter.data),
                 icon: const Icon(LineAwesomeIcons.identification_card_1),
                 title: '个人资料',
               ),
               MenuBar(
-                onPressed: () {},
+                onPressed: () => context.push(AppRouter.chgpswd),
                 icon: const Icon(LineAwesomeIcons.lock_open),
                 title: '修改密码',
               ),
               MenuBar(
-                onPressed: () {},
+                onPressed: () => context.push(AppRouter.manage),
                 icon: const Icon(LineAwesomeIcons.alternate_shield),
                 title: '账号管理',
               ),
@@ -80,12 +81,14 @@ class _SettingsPageState extends State<SettingsPage> {
               color: AppColor.primary,
               child: SizedBox(
                 width: MediaQuery.of(context).size.width * 0.75,
-                child: const Text(
-                  '退出登录',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: 17,
-                    color: Colors.white,
+                height: 45,
+                child: const Center(
+                  child: Text(
+                    '退出登录',
+                    style: TextStyle(
+                      fontSize: 17,
+                      color: Colors.white,
+                    ),
                   ),
                 ),
               ),

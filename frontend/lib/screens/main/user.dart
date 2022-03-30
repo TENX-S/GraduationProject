@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:provider/provider.dart';
 
 import '../../common/router.dart';
 import '../../common/styles.dart';
@@ -50,51 +51,62 @@ class _UserPageState extends State<UserPage> {
               color: AppColor.userBg,
               child: Padding(
                 padding: const EdgeInsets.symmetric(vertical: 10),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Padding(
-                      padding: EdgeInsets.only(top: 10),
-                      child: CircleAvatar(
-                        radius: 70,
-                        backgroundImage: AssetImage('assets/images/user.png'),
-                        backgroundColor: AppColor.userAvatarBg,
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(0, 5, 0, 2),
-                      child: Text(
-                        currUser.name!,
-                        style: const TextStyle(
-                          color: AppColor.title,
-                          fontFamily: AppFont.title,
-                          fontSize: 20,
-                          decoration: TextDecoration.underline,
+                child: GestureDetector(
+                  onTap: () => context.push(AppRouter.data),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Padding(
+                        padding: EdgeInsets.only(top: 10),
+                        child: CircleAvatar(
+                          radius: 70,
+                          backgroundImage: AssetImage('assets/images/user.png'),
+                          backgroundColor: AppColor.userAvatarBg,
                         ),
                       ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 2),
-                      child: Text(
-                        currUser.email,
-                        style: const TextStyle(
-                          color: Colors.grey,
-                          fontSize: 14,
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(0, 5, 0, 2),
+                        child: Consumer<User>(
+                          builder: (context, user, child) {
+                            return Text(
+                              user.name,
+                              style: const TextStyle(
+                                color: AppColor.title,
+                                fontFamily: AppFont.title,
+                                fontSize: 20,
+                                decoration: TextDecoration.underline,
+                              ),
+                            );
+                          },
                         ),
                       ),
-                    ),
-                    const Padding(
-                      padding: EdgeInsets.fromLTRB(0, 2, 0, 10),
-                      child: Text(
-                        '欢迎来到博物馆~',
-                        style: TextStyle(
-                          color: Colors.grey,
-                          fontSize: 13,
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 2),
+                        child: Consumer<User>(
+                          builder: (context, user, child) {
+                            return Text(
+                              user.email,
+                              style: const TextStyle(
+                                color: Colors.grey,
+                                fontSize: 14,
+                              ),
+                            );
+                          },
                         ),
                       ),
-                    ),
-                  ],
+                      const Padding(
+                        padding: EdgeInsets.fromLTRB(0, 2, 0, 10),
+                        child: Text(
+                          '欢迎来到博物馆~',
+                          style: TextStyle(
+                            color: Colors.grey,
+                            fontSize: 13,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -148,15 +160,19 @@ class _UserPageState extends State<UserPage> {
 }
 
 class MenuBar extends StatelessWidget {
-  final Widget icon;
+  final Widget? icon;
+  final Widget? trailing;
   final String title;
+  final TextStyle? textStyle;
   final void Function()? onPressed;
-  const MenuBar(
-      {Key? key,
-      required this.icon,
-      required this.title,
-      required this.onPressed})
-      : super(key: key);
+  const MenuBar({
+    Key? key,
+    required this.title,
+    required this.onPressed,
+    this.icon,
+    this.trailing,
+    this.textStyle,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -168,15 +184,16 @@ class MenuBar extends StatelessWidget {
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            icon,
+            icon ?? Container(),
             Padding(
               padding: const EdgeInsets.only(left: 15),
               child: Text(
                 title,
-                style: const TextStyle(fontSize: 15),
+                style: textStyle ?? const TextStyle(fontSize: 15),
               ),
             ),
             Expanded(child: Container()),
+            trailing ?? Container(),
             const Icon(
               Icons.arrow_forward_ios,
               size: 15,
@@ -184,17 +201,6 @@ class MenuBar extends StatelessWidget {
           ],
         ),
       ),
-      // child: ListTile(
-      //   tileColor: AppColor.userMenuBarBg,
-      //   selectedTileColor: AppColor.userBg,
-      //   minLeadingWidth: 0,
-      //   leading: icon,
-      //   title: Text(
-      //     title,
-      //     style: const TextStyle(fontSize: 15),
-      //   ),
-      //   trailing: const Icon(Icons.arrow_forward_ios),
-      // ),
     );
   }
 }

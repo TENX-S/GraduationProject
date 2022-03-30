@@ -1,5 +1,4 @@
 import 'package:email_validator/email_validator.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_login/flutter_login.dart';
 import 'package:go_router/go_router.dart';
@@ -34,13 +33,12 @@ class _AuthPageState extends State<AuthPage> {
   }
 
   Future<String?> _onSignUp(SignupData input) async {
-    final user = User(
-      email: input.name!,
-      password: input.password!,
-    );
+    final candidate = User();
+    candidate.email = input.name!;
+    candidate.password = input.password!;
     late final AuthReply resp;
     try {
-      resp = await Client().onSignUp(user);
+      resp = await Client().onSignUp(candidate);
     } catch (e) {
       showTip(msg: e.toString());
     }
@@ -56,18 +54,15 @@ class _AuthPageState extends State<AuthPage> {
           break;
       }
     }
-    currUser.email = input.name!;
     return null;
   }
 
   Future<String?> _onLogin(LoginData input) async {
-    final user = User(
-      email: input.name,
-      password: input.password,
-    );
+    currUser.email = input.name;
+    currUser.password = input.password;
     late final AuthReply resp;
     try {
-      resp = await Client().onLogin(user);
+      resp = await Client().onLogin(currUser);
     } catch (e) {
       showTip(msg: e.toString());
     }
@@ -84,7 +79,6 @@ class _AuthPageState extends State<AuthPage> {
           break;
       }
     }
-    currUser.email = input.name;
     return null;
   }
 

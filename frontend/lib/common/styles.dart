@@ -60,6 +60,8 @@ class AppColor {
   static const userBg = Color(0xFFF3F2F2);
   static const userAvatarBg = Color(0xFFAAAAAA);
   static const userMenuBarBg = Color(0xFFFEFEFE);
+
+  static const userDataText = Color(0xFF868686);
 }
 
 class AppFont {

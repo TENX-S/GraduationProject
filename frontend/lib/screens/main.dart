@@ -1,10 +1,12 @@
 import 'package:bottom_navy_bar/bottom_navy_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
 
 import './screen.dart';
 import '../common/styles.dart';
 import '../common/tip.dart';
+import '../models/user.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({Key? key}) : super(key: key);
@@ -47,16 +49,19 @@ class _MainPageState extends State<MainPage> {
     return Scaffold(
       body: WillPopScope(
         onWillPop: _onWillPop,
-        child: PageView(
-          controller: _pageController,
-          onPageChanged: (index) {
-            setState(() => _currentIndex = index);
-          },
-          children: const <Widget>[
-            HomePage(),
-            CollPage(),
-            UserPage(),
-          ],
+        child: ChangeNotifierProvider(
+          create: (context) => currUser,
+          child: PageView(
+            controller: _pageController,
+            onPageChanged: (index) {
+              setState(() => _currentIndex = index);
+            },
+            children: const <Widget>[
+              HomePage(),
+              CollPage(),
+              UserPage(),
+            ],
+          ),
         ),
       ),
       bottomNavigationBar: BottomNavyBar(

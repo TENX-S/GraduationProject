@@ -10,6 +10,12 @@ class AppRouter {
   static const scan = '/scan';
   static const coll = '/coll';
   static const settings = '/settings';
+  static const data = '/data';
+  static const chgpswd = '/chgpswd';
+  static const manage = '/manage';
+  static const name = '/name';
+  static const chgemail = '/chgemail';
+  static const unsubscribe = '/unsubscribe';
 }
 
 final GoRouter router = GoRouter(routes: <GoRoute>[
@@ -40,5 +46,31 @@ final GoRouter router = GoRouter(routes: <GoRoute>[
     path: AppRouter.settings,
     builder: (BuildContext context, GoRouterState state) =>
         const SettingsPage(),
+  ),
+  GoRoute(
+    path: AppRouter.chgpswd,
+    builder: (BuildContext context, GoRouterState state) => const ChgPswdPage(),
+  ),
+  GoRoute(
+    path: AppRouter.data,
+    builder: (BuildContext context, GoRouterState state) => const DataPage(),
+  ),
+  GoRoute(
+    path: AppRouter.manage,
+    builder: (BuildContext context, GoRouterState state) => const ManagePage(),
+  ),
+  GoRoute(
+    path: AppRouter.name,
+    builder: (BuildContext context, GoRouterState state) => const NamePage(),
+  ),
+  GoRoute(
+    path: AppRouter.chgemail,
+    builder: (BuildContext context, GoRouterState state) =>
+        const ChgemailPage(),
+  ),
+  GoRoute(
+    path: AppRouter.unsubscribe,
+    builder: (BuildContext context, GoRouterState state) =>
+        const UnsubscribePage(),
   ),
 ]);
