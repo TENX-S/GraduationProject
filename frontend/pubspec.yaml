@@ -57,7 +57,9 @@ flutter:
     - assets/images/banner/
     - assets/images/button/
     - assets/images/slider/
+    - assets/images/bar/
     - assets/protocols/
+    - assets/expo/
 
   fonts:
     - family: FZFYSJW

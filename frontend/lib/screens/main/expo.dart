@@ -1,5 +1,9 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:frontend/screens/screen.dart';
+import 'package:go_router/go_router.dart';
 
+import '../../common/router.dart';
 import '../../common/styles.dart';
 
 class ExpoPage extends StatefulWidget {
@@ -59,6 +63,45 @@ class _ExpoPageState extends State<ExpoPage> {
                     ),
                   ],
                 ),
+              ),
+            ),
+            Container(
+              padding: const EdgeInsets.fromLTRB(15, 10, 15, 0),
+              color: const Color.fromARGB(255, 236, 236, 234),
+              child: GridView.count(
+                primary: false,
+                crossAxisCount: 2,
+                shrinkWrap: true,
+                childAspectRatio: 3.3 / 5,
+                mainAxisSpacing: 10,
+                crossAxisSpacing: 10,
+                children: List.generate(exhibitionArr.length, (index) {
+                  return GestureDetector(
+                    onTap: () =>
+                        context.push('${AppRouter.detail}/?index=${index + 1}'),
+                    child: ClipRRect(
+                      borderRadius: const BorderRadius.all(Radius.circular(8)),
+                      child: Container(
+                        color: Colors.white,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Image.asset(
+                              'assets/images/slider/${index + 1}.jpg',
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(bottom: 4),
+                              child: AutoSizeText(
+                                exhibitionArr[index],
+                                maxLines: 2,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  );
+                }),
               ),
             ),
           ],

@@ -25,10 +25,13 @@ class _HomePageState extends State<HomePage> {
           icon: const Icon(Icons.notifications_none),
           onPressed: () {},
         ),
-        title: Image.asset(
-          'assets/images/title.png',
-          scale: 0.5,
-          height: 60,
+        title: Padding(
+          padding: const EdgeInsets.only(top: 10),
+          child: Image.asset(
+            'assets/images/title.png',
+            scale: 0.5,
+            height: 60,
+          ),
         ),
         actions: [
           IconButton(
@@ -299,6 +302,6 @@ const exhibitionArr = <String>[
   '内蒙古文物菁华展',
   '江天万里--长江文化展',
   '中国古代饮食文化展',
-  '镜里千秋——中国古代铜镜文化',
-  '科技的力量',
+  '梅兰芳艺术人生展览',
+  '潘鲁生民艺展',
 ];

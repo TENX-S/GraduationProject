@@ -4,6 +4,7 @@ export 'auth.dart';
 export 'main.dart';
 export 'main/coll.dart';
 export 'main/expo.dart';
+export 'main/expo/detail.dart';
 export 'main/home.dart';
 export 'main/home/scan.dart';
 export 'main/user.dart';
