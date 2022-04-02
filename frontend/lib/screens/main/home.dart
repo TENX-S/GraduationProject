@@ -222,11 +222,15 @@ class _HomePageState extends State<HomePage> {
                         (idx) => TableCell(
                           child: Padding(
                             padding: const EdgeInsets.only(left: 15),
-                            child: ClipRRect(
-                              borderRadius:
-                                  const BorderRadius.all(Radius.circular(4)),
-                              child: Image.asset(
-                                'assets/images/slider/${idx + 1}.jpg',
+                            child: GestureDetector(
+                              onTap: () => context.push(
+                                  '${AppRouter.detail}/?index=${idx + 1}'),
+                              child: ClipRRect(
+                                borderRadius:
+                                    const BorderRadius.all(Radius.circular(4)),
+                                child: Image.asset(
+                                  'assets/images/slider/${idx + 1}.jpg',
+                                ),
                               ),
                             ),
                           ),
@@ -237,17 +241,21 @@ class _HomePageState extends State<HomePage> {
                       children: List<Widget>.generate(
                         exhibitionArr.length,
                         (idx) => TableCell(
-                          child: Container(
-                            padding: const EdgeInsets.only(top: 10),
-                            margin: const EdgeInsets.only(left: 12),
-                            child: AutoSizeText(
-                              exhibitionArr[idx],
-                              // textAlign: TextAlign.center,
-                              style: const TextStyle(
-                                fontSize: 15,
-                                fontFamily: AppFont.label,
+                          child: GestureDetector(
+                            onTap: () => context
+                                .push('${AppRouter.detail}/?index=${idx + 1}'),
+                            child: Container(
+                              padding: const EdgeInsets.only(top: 10),
+                              margin: const EdgeInsets.only(left: 12),
+                              child: AutoSizeText(
+                                exhibitionArr[idx],
+                                // textAlign: TextAlign.center,
+                                style: const TextStyle(
+                                  fontSize: 15,
+                                  fontFamily: AppFont.label,
+                                ),
+                                maxLines: 2,
                               ),
-                              maxLines: 2,
                             ),
                           ),
                         ),
