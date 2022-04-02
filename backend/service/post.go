@@ -49,3 +49,12 @@ func (s *PostService) OnFetchAll(ctx context.Context, in *Empty) (*Posts, error)
 	L.Printf("[POST:FETCH_ALL] [SUCCESS:%d posts]", len(posts))
 	return &Posts{Posts: posts}, nil
 }
+
+func (s *PostService) OnSearch(ctx context.Context, in *Token) (*Posts, error) {
+	var posts []*PostReply
+	for _, p := range Search(in.Value) {
+		posts = append(posts, &PostReply{Success: true, Content: &PostContent{Id: p.Id.String(), Name: p.Name, Dynasty: p.Dynasty, Descr: p.Descr, Intro: p.Intro, Pic: p.Pic}, Error: nil})
+	}
+	L.Printf("[POST:SEARCH] [TOKEN:%s] [SUCCESS:%d posts]", in.Value, len(posts))
+	return &Posts{Posts: posts}, nil
+}

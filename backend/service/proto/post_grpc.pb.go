@@ -20,6 +20,7 @@ const _ = grpc.SupportPackageIsVersion7
 type PostClient interface {
 	OnQuery(ctx context.Context, in *PostRequest, opts ...grpc.CallOption) (*PostReply, error)
 	OnFetchAll(ctx context.Context, in *Empty, opts ...grpc.CallOption) (*Posts, error)
+	OnSearch(ctx context.Context, in *Token, opts ...grpc.CallOption) (*Posts, error)
 }
 
 type postClient struct {
@@ -48,12 +49,22 @@ func (c *postClient) OnFetchAll(ctx context.Context, in *Empty, opts ...grpc.Cal
 	return out, nil
 }
 
+func (c *postClient) OnSearch(ctx context.Context, in *Token, opts ...grpc.CallOption) (*Posts, error) {
+	out := new(Posts)
+	err := c.cc.Invoke(ctx, "/z.museum.post.Post/OnSearch", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // PostServer is the server API for Post service.
 // All implementations must embed UnimplementedPostServer
 // for forward compatibility
 type PostServer interface {
 	OnQuery(context.Context, *PostRequest) (*PostReply, error)
 	OnFetchAll(context.Context, *Empty) (*Posts, error)
+	OnSearch(context.Context, *Token) (*Posts, error)
 	mustEmbedUnimplementedPostServer()
 }
 
@@ -66,6 +77,9 @@ func (UnimplementedPostServer) OnQuery(context.Context, *PostRequest) (*PostRepl
 }
 func (UnimplementedPostServer) OnFetchAll(context.Context, *Empty) (*Posts, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method OnFetchAll not implemented")
+}
+func (UnimplementedPostServer) OnSearch(context.Context, *Token) (*Posts, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method OnSearch not implemented")
 }
 func (UnimplementedPostServer) mustEmbedUnimplementedPostServer() {}
 
@@ -116,6 +130,24 @@ func _Post_OnFetchAll_Handler(srv interface{}, ctx context.Context, dec func(int
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Post_OnSearch_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(Token)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(PostServer).OnSearch(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/z.museum.post.Post/OnSearch",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(PostServer).OnSearch(ctx, req.(*Token))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Post_ServiceDesc is the grpc.ServiceDesc for Post service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -130,6 +162,10 @@ var Post_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "OnFetchAll",
 			Handler:    _Post_OnFetchAll_Handler,
+		},
+		{
+			MethodName: "OnSearch",
+			Handler:    _Post_OnSearch_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

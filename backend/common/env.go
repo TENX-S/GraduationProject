@@ -21,6 +21,7 @@ type Env struct {
 	MYSQL_PASS             string
 	MYSQL_ADDR             string
 	REDIS_ADDR             string
+	MEILI_ADDR             string
 	TENCENT_CDN            string
 	TENCENT_COS_BUCKET     string
 	TENCENT_COS_SECRET_ID  string
@@ -42,6 +43,7 @@ func init() {
 	E.TEST_USER_PSWD = os.Getenv("TEST_USER_PSWD")
 	E.MYSQL_HOST = os.Getenv("MYSQL_HOST")
 	E.MYSQL_PASS = os.Getenv("MYSQL_PASS")
+	E.MEILI_ADDR = os.Getenv("MEILI_ADDR")
 	switch E.DEPLOY {
 	case "docker":
 		E.MYSQL_ADDR = os.Getenv("MYSQL_ADDR_DOCKER")

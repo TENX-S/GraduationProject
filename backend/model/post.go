@@ -10,6 +10,7 @@ import (
 	. "github.com/TENX-S/backend/common"
 	"github.com/go-redis/redis/v8"
 	"github.com/google/uuid"
+	"github.com/meilisearch/meilisearch-go"
 	qrcode "github.com/skip2/go-qrcode"
 	"github.com/tencentyun/cos-go-sdk-v5"
 )
@@ -44,6 +45,17 @@ func (p Post) initQRCode() {
 	} else {
 		L.Printf("[POST] [UPLOAD:QRCODE:SUCCESS:%s:%s]", p.Name, p.Id.String())
 	}
+}
+
+func (p Post) toMap() map[string]string {
+	m := make(map[string]string, 0)
+	m["id"] = p.Id.String()
+	m["name"] = p.Name
+	m["dynasty"] = p.Dynasty
+	m["descr"] = p.Descr
+	m["intro"] = p.Intro
+	m["pic"] = p.Pic
+	return m
 }
 
 func (p *Post) Query(id string) (res int) {
@@ -127,4 +139,25 @@ func (p *Post) mapStr2Post(val string) {
 	p.Descr = arr[3]
 	p.Intro = arr[4]
 	p.Pic = arr[5]
+}
+
+func Search(token string) (posts []Post) {
+	resp, err := MI.Index("posts").Search(token, &meilisearch.SearchRequest{})
+	WTF(err)
+	for _, h := range resp.Hits {
+		if m, ok := h.(map[string]interface{}); ok {
+			p := Post{
+				Id:      uuid.MustParse(m["id"].(string)),
+				Name:    m["name"].(string),
+				Dynasty: m["dynasty"].(string),
+				Descr:   m["descr"].(string),
+				Intro:   m["intro"].(string),
+				Pic:     m["pic"].(string),
+			}
+			posts = append(posts, p)
+		} else {
+			panic("emmm")
+		}
+	}
+	return
 }

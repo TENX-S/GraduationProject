@@ -18,6 +18,7 @@ import (
 	"github.com/go-redis/redis/v8"
 	"github.com/google/uuid"
 	"github.com/jmoiron/sqlx"
+	"github.com/meilisearch/meilisearch-go"
 	"github.com/tencentyun/cos-go-sdk-v5"
 )
 
@@ -26,6 +27,9 @@ var KV = redis.NewClient(&redis.Options{
 	Addr:     E.REDIS_ADDR,
 	Password: "",
 	DB:       0,
+})
+var MI = meilisearch.NewClient(meilisearch.ClientConfig{
+	Host: E.MEILI_ADDR,
 })
 var BG context.Context
 var EC = make(chan error)
@@ -43,7 +47,7 @@ func init() {
 	initDB()
 	initCC()
 	initDBUser()
-	initDBPost()
+	initDBPostAndMeili()
 	initKV()
 }
 
@@ -85,8 +89,9 @@ func initDBUser() {
 	EC <- tx.Commit()
 }
 
-func initDBPost() {
+func initDBPostAndMeili() {
 	var data []string
+	docs := make([]map[string]string, 0)
 	data, err := filepath.Glob(filepath.Join("data", "html", "*.html"))
 	EC <- err
 	if len(data) == 0 {
@@ -101,9 +106,13 @@ func initDBPost() {
 	tx := DB.MustBegin()
 	for p := range PC {
 		_, err = tx.NamedExec(AddPost, p)
+		docs = append(docs, p.toMap())
 		EC <- err
 	}
 	EC <- tx.Commit()
+
+	_, err = MI.Index("posts").AddDocuments(docs)
+	EC <- err
 }
 
 func parseData(num int) {

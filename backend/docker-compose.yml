@@ -8,10 +8,15 @@ services:
       - .:/code
     depends_on:
       - redis
+      - meili
     extra_hosts:
       - "host.docker.internal:host-gateway"
     restart: always
 
   redis:
     image: "redis:latest"
+    restart: always
+
+  meili:
+    image: getmeili/meilisearch
     restart: always
