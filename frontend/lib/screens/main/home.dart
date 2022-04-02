@@ -40,8 +40,9 @@ class _HomePageState extends State<HomePage> {
             icon: const Icon(Icons.qr_code_scanner_rounded),
           ),
           IconButton(
-            onPressed: () async =>
-                await showSearch(context: context, delegate: search),
+            onPressed: () async {
+              await showSearch(context: context, delegate: search);
+            },
             icon: const Icon(Icons.search),
           ),
         ],

@@ -12,10 +12,29 @@ var search = Search();
 
 class Search extends SearchDelegate<Future<Widget>> {
   @override
+  String get searchFieldLabel => '你想找...';
+
+  @override
+  TextStyle? get searchFieldStyle => const TextStyle(fontSize: 16);
+
+  @override
+  ThemeData appBarTheme(BuildContext context) {
+    return super.appBarTheme(context).copyWith(
+          appBarTheme: const AppBarTheme(
+            elevation: 0,
+            color: AppColor.collAppBar,
+          ),
+        );
+  }
+
+  @override
   List<Widget>? buildActions(BuildContext context) {
     return [
       IconButton(
-        icon: const Icon(Icons.clear),
+        icon: const Icon(
+          Icons.clear,
+          color: AppColor.title,
+        ),
         onPressed: () {
           query = '';
         },
@@ -26,7 +45,10 @@ class Search extends SearchDelegate<Future<Widget>> {
   @override
   Widget? buildLeading(BuildContext context) {
     return IconButton(
-      icon: const Icon(Icons.arrow_back),
+      icon: const Icon(
+        Icons.arrow_back_ios,
+        color: AppColor.title,
+      ),
       onPressed: () {
         close(context, Future.value(Container()));
       },
@@ -56,7 +78,7 @@ class Search extends SearchDelegate<Future<Widget>> {
                     padding: const EdgeInsets.all(12),
                     child: GestureDetector(
                       onTap: () => context.push(
-                          '${AppRouter.post}?query=${posts[index].id}&from=${AppRouter.coll}?'),
+                          '${AppRouter.post}?query=${posts[index].id}&from=${AppRouter.scan}?'),
                       child: Card(
                         shape: const RoundedRectangleBorder(
                           borderRadius: BorderRadius.all(
@@ -72,7 +94,7 @@ class Search extends SearchDelegate<Future<Widget>> {
                               padding: const EdgeInsets.symmetric(vertical: 10),
                               child: CachedNetworkImage(
                                 imageUrl: posts[index].pic,
-                                fit: BoxFit.fill,
+                                fit: BoxFit.fitHeight,
                                 placeholder: (context, url) => const SizedBox(
                                   height: 200,
                                   child: Center(

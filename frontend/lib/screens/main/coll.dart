@@ -37,8 +37,9 @@ class _CollPageState extends State<CollPage> {
         actions: [
           IconButton(
             color: AppColor.title,
-            onPressed: () async =>
-                await showSearch(context: context, delegate: search),
+            onPressed: () async {
+              await showSearch(context: context, delegate: search);
+            },
             icon: const Icon(Icons.search),
           ),
         ],
