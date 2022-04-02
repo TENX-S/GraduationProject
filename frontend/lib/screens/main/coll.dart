@@ -21,8 +21,8 @@ class _CollPageState extends State<CollPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        centerTitle: false,
         elevation: 0,
+        centerTitle: false,
         backgroundColor: AppColor.collAppBar,
         title: const Text(
           '馆藏精品',
@@ -92,12 +92,18 @@ class _CollPageState extends State<CollPage> {
     );
   }
 
-  Future<List<Post>>? _fetchAllPosts() async => Client().onFetchAll().then((p) {
+  Future<List<Post>>? _fetchAllPosts() async {
+    if (posts.isEmpty) {
+      return Client().onFetchAll().then((p) {
         for (var reply in p.posts) {
           posts[reply.content.id] = Post.fromReply(reply: reply);
         }
         return posts.values.toList();
       });
+    } else {
+      return posts.values.toList();
+    }
+  }
 
   Widget _buildGridView({
     required BuildContext context,

@@ -7,7 +7,8 @@ import 'package:go_router/go_router.dart';
 import '../../common/styles.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
+  final void Function()? callback;
+  const HomePage({Key? key, required this.callback}) : super(key: key);
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -24,10 +25,13 @@ class _HomePageState extends State<HomePage> {
           icon: const Icon(Icons.notifications_none),
           onPressed: () {},
         ),
-        title: Image.asset(
-          'assets/images/title.png',
-          scale: 0.5,
-          height: 60,
+        title: Padding(
+          padding: const EdgeInsets.only(top: 10),
+          child: Image.asset(
+            'assets/images/title.png',
+            scale: 0.5,
+            height: 60,
+          ),
         ),
         actions: [
           IconButton(
@@ -175,24 +179,27 @@ class _HomePageState extends State<HomePage> {
                   Expanded(child: Container()),
                   Padding(
                     padding: const EdgeInsets.only(right: 5),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: const [
-                        Text(
-                          '全部',
-                          style: TextStyle(
-                            color: AppColor.homeDetail,
-                            decoration: TextDecoration.underline,
-                            fontSize: 15,
-                          ),
+                    child: TextButton(
+                      onPressed: widget.callback,
+                      child: Center(
+                        child: Row(
+                          children: const [
+                            Text(
+                              '全部',
+                              style: TextStyle(
+                                color: AppColor.homeDetail,
+                                decoration: TextDecoration.underline,
+                                fontSize: 15,
+                              ),
+                            ),
+                            Icon(
+                              Icons.arrow_forward_ios,
+                              color: AppColor.homeDetail,
+                              size: 22,
+                            ),
+                          ],
                         ),
-                        Icon(
-                          Icons.arrow_forward_ios,
-                          color: AppColor.homeDetail,
-                          size: 24,
-                        ),
-                      ],
+                      ),
                     ),
                   )
                 ],
@@ -281,7 +288,7 @@ class CustomButton extends StatelessWidget {
             style: const TextStyle(
               fontFamily: AppFont.label,
               fontWeight: FontWeight.w600,
-              fontSize: 15,
+              fontSize: 14,
             ),
             maxLines: 1,
           ),
@@ -292,9 +299,9 @@ class CustomButton extends StatelessWidget {
 }
 
 const exhibitionArr = <String>[
-  '古代中国',
+  '内蒙古文物菁华展',
   '江天万里--长江文化展',
   '中国古代饮食文化展',
-  '梅澜芳华--梅兰芳艺术人生展',
-  '科技的力量',
+  '梅兰芳艺术人生展览',
+  '潘鲁生民艺展',
 ];

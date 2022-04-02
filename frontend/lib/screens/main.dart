@@ -33,6 +33,15 @@ class _MainPageState extends State<MainPage> {
     return Future.value(true);
   }
 
+  void _jumpToExpo() {
+    setState(() => _currentIndex = 1);
+    _pageController.animateToPage(
+      1,
+      duration: const Duration(milliseconds: 150),
+      curve: Curves.ease,
+    );
+  }
+
   @override
   void initState() {
     super.initState();
@@ -57,11 +66,11 @@ class _MainPageState extends State<MainPage> {
             onPageChanged: (index) {
               setState(() => _currentIndex = index);
             },
-            children: const <Widget>[
-              HomePage(),
-              ExpoPage(),
-              CollPage(),
-              UserPage(),
+            children: <Widget>[
+              HomePage(callback: _jumpToExpo),
+              const ExpoPage(),
+              const CollPage(),
+              const UserPage(),
             ],
           ),
         ),
