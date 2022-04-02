@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:frontend/screens/main/search.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../services/client.dart';
@@ -36,7 +37,8 @@ class _CollPageState extends State<CollPage> {
         actions: [
           IconButton(
             color: AppColor.title,
-            onPressed: () => {},
+            onPressed: () async =>
+                await showSearch(context: context, delegate: search),
             icon: const Icon(Icons.search),
           ),
         ],

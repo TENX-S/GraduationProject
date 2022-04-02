@@ -2,6 +2,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:card_swiper/card_swiper.dart';
 import 'package:flutter/material.dart';
 import 'package:frontend/common/router.dart';
+import 'package:frontend/screens/main/search.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../common/styles.dart';
@@ -39,7 +40,8 @@ class _HomePageState extends State<HomePage> {
             icon: const Icon(Icons.qr_code_scanner_rounded),
           ),
           IconButton(
-            onPressed: () => {},
+            onPressed: () async =>
+                await showSearch(context: context, delegate: search),
             icon: const Icon(Icons.search),
           ),
         ],
