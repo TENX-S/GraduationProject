@@ -61,6 +61,7 @@ func initDB() {
 	dsn := fmt.Sprintf("%s:%s@tcp(%s)/%s", E.MYSQL_HOST, E.MYSQL_PASS, E.MYSQL_ADDR, E.DB_NAME)
 	DB, err = sqlx.Connect("mysql", dsn)
 	EC <- err
+	DB.SetMaxOpenConns(100000)
 	DB.MustExec(userSchema)
 	DB.MustExec(postSchema)
 }

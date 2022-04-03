@@ -5,3 +5,4 @@ go.work
 *.test
 /qrcodes
 /env/sercrets.env
+/tls

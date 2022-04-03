@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:grpc/grpc.dart';
 
 import '../models/user.dart';
@@ -20,11 +22,12 @@ class Client {
     String host,
     int port,
   ) {
+    final trustedRoot = File('assets/tls/server.crt').readAsBytesSync();
     ClientChannel chan = ClientChannel(
       host,
       port: port,
       options: ChannelOptions(
-        credentials: const ChannelCredentials.insecure(),
+        credentials: ChannelCredentials.secure(certificates: trustedRoot),
         codecRegistry: CodecRegistry(
           codecs: const [
             GzipCodec(),
