@@ -23,22 +23,19 @@ import (
 )
 
 var DB *sqlx.DB
-var KV = redis.NewClient(&redis.Options{
-	Addr:     E.REDIS_ADDR,
-	Password: "",
-	DB:       0,
-})
-var MI = meilisearch.NewClient(meilisearch.ClientConfig{
-	Host: E.MEILI_ADDR,
-})
+var KV *redis.Client
+var CC *cos.Client
+var MI *meilisearch.Client
+
 var BG context.Context
+
 var EC = make(chan error)
 var PC = make(chan Post, 1000)
+
 var PW sync.WaitGroup
 var QW sync.WaitGroup
-var CC *cos.Client
 
-func init() {
+func InitModel() {
 	defer L.Info("[SERVICE] [INITIALIZATION COMPLETED]")
 	defer close(EC)
 	defer QW.Wait()
@@ -90,8 +87,11 @@ func initDBUser() {
 }
 
 func initDBPostAndMeili() {
+	MI = meilisearch.NewClient(meilisearch.ClientConfig{
+		Host: E.MEILI_ADDR,
+	})
+
 	var data []string
-	docs := make([]map[string]string, 0)
 	data, err := filepath.Glob(filepath.Join("data", "html", "*.html"))
 	EC <- err
 	if len(data) == 0 {
@@ -104,6 +104,7 @@ func initDBPostAndMeili() {
 	PW.Wait()
 	close(PC)
 	tx := DB.MustBegin()
+	docs := make([]map[string]string, 0)
 	for p := range PC {
 		_, err = tx.NamedExec(AddPost, p)
 		docs = append(docs, p.toMap())
@@ -181,6 +182,12 @@ func parseData(num int) {
 }
 
 func initKV() {
+	KV = redis.NewClient(&redis.Options{
+		Addr:     E.REDIS_ADDR,
+		Password: "",
+		DB:       0,
+	})
+
 	BG = context.Background()
 	var posts []Post
 	tx := DB.MustBegin()
