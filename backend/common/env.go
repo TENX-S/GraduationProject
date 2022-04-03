@@ -27,6 +27,8 @@ type Env struct {
 	TENCENT_COS_SECRET_ID  string
 	TENCENT_COS_SECRET_KEY string
 	PSWD_SALT              string
+	CERT_FILE              string
+	KEY_FILE               string
 }
 
 var E Env
@@ -69,6 +71,8 @@ func init() {
 	E.TENCENT_COS_SECRET_ID = os.Getenv("TENCENT_COS_SECRET_ID")
 	E.TENCENT_COS_SECRET_KEY = os.Getenv("TENCENT_COS_SECRET_KEY")
 	E.PSWD_SALT = os.Getenv("PSWD_SALT")
+	E.CERT_FILE = os.Getenv("CERT_FILE")
+	E.KEY_FILE = os.Getenv("KEY_FILE")
 	E.mustSet()
 }
 
