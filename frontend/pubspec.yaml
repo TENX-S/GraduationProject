@@ -60,6 +60,7 @@ flutter:
     - assets/images/bar/
     - assets/protocols/
     - assets/expo/
+    - assets/tls/
 
   fonts:
     - family: FZFYSJW
