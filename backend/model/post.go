@@ -76,29 +76,30 @@ func (p *Post) Query(id string) (res int) {
 		res = INVALID_POST_ID
 		return
 	}
-	var val []string
-	val, err = KV.LRange(BG, id, 0, -1).Result()
-	if err == redis.Nil {
-		tx := DB.MustBegin()
-		err = tx.Get(p, QueryPost, id)
-		if err == nil {
-			go func() {
-				ERR(KV.SetNX(BG, id, p.PackedField(), 0).Err())
-			}()
-			return
-		}
-		if err == sql.ErrNoRows {
-			res = NONEXISTENT_POST
-			return
-		} else {
-			res = UNKNOWN
-			ERR(err)
-			return
-		}
-	}
+	var fields []string
+	fields, err = KV.LRange(BG, id, 0, -1).Result()
 	if err == nil {
-		p.fromArr(val)
-		return
+		if len(fields) == 0 {
+			tx := DB.MustBegin()
+			err = tx.Get(p, QueryPost, id)
+			if err == nil {
+				go func() {
+					ERR(KV.SetNX(BG, id, p.PackedField(), 0).Err())
+				}()
+				return
+			}
+			if err == sql.ErrNoRows {
+				res = NONEXISTENT_POST
+				return
+			} else {
+				res = UNKNOWN
+				ERR(err)
+				return
+			}
+		} else {
+			p.fromArr(fields)
+			return
+		}
 	} else {
 		res = UNKNOWN
 		ERR(err)
