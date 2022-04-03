@@ -47,6 +47,17 @@ func (p Post) initQRCode() {
 	}
 }
 
+func (p Post) toArr() []string {
+	arr := make([]string, 6)
+	arr[0] = p.Id.String()
+	arr[1] = p.Name
+	arr[2] = p.Dynasty
+	arr[3] = p.Descr
+	arr[4] = p.Intro
+	arr[5] = p.Pic
+	return arr
+}
+
 func (p Post) toMap() map[string]string {
 	m := make(map[string]string, 0)
 	m["id"] = p.Id.String()
@@ -65,14 +76,14 @@ func (p *Post) Query(id string) (res int) {
 		res = INVALID_POST_ID
 		return
 	}
-	var val string
-	val, err = KV.Get(BG, id).Result()
+	var val []string
+	val, err = KV.LRange(BG, id, 0, -1).Result()
 	if err == redis.Nil {
 		tx := DB.MustBegin()
 		err = tx.Get(p, QueryPost, id)
 		if err == nil {
 			go func() {
-				WTF(KV.SetNX(BG, id, p.PackedField(), 0).Err())
+				ERR(KV.SetNX(BG, id, p.PackedField(), 0).Err())
 			}()
 			return
 		}
@@ -81,16 +92,16 @@ func (p *Post) Query(id string) (res int) {
 			return
 		} else {
 			res = UNKNOWN
-			WTF(err)
+			ERR(err)
 			return
 		}
 	}
 	if err == nil {
-		p.mapStr2Post(val)
+		p.fromArr(val)
 		return
 	} else {
 		res = UNKNOWN
-		WTF(err)
+		ERR(err)
 		return
 	}
 }
@@ -98,23 +109,25 @@ func (p *Post) Query(id string) (res int) {
 func FetchAll() []Post {
 	var ids []uuid.UUID
 	tx := DB.MustBegin()
-	WTF(tx.Select(&ids, FetchAllPostId))
-	WTF(tx.Commit())
-	res, err := KV.MGet(BG, mapUUID2Str(ids)...).Result()
-	posts := make([]Post, len(res))
-	for i, v := range res {
+	ERR(tx.Select(&ids, FetchAllPostId))
+	ERR(tx.Commit())
+	pids, err := KV.LRange(BG, "pid", 0, -1).Result()
+	ERR(err)
+	posts := make([]Post, len(pids))
+	for i, id := range pids {
 		var p Post
-		val := v.(string)
-		p.mapStr2Post(val)
+		arr, err := KV.LRange(BG, id, 0, -1).Result()
+		ERR(err)
+		p.fromArr(arr)
 		posts[i] = p
 	}
 	if err == redis.Nil {
 		L.Printf("[POST] [MISS:%#v]", err)
 		tx = DB.MustBegin()
-		WTF(tx.Select(&posts, FetchAllPosts))
-		WTF(tx.Commit())
+		ERR(tx.Select(&posts, FetchAllPosts))
+		ERR(tx.Commit())
 	} else {
-		WTF(err)
+		ERR(err)
 	}
 	return posts
 }
@@ -127,8 +140,7 @@ func mapUUID2Str(src []uuid.UUID) []string {
 	return dst
 }
 
-func (p *Post) mapStr2Post(val string) {
-	arr := str.Split(val, "|")
+func (p *Post) fromArr(arr []string) {
 	if len(arr) != 6 {
 		panic("oh blooding hell")
 	}
@@ -143,7 +155,7 @@ func (p *Post) mapStr2Post(val string) {
 
 func Search(token string) (posts []Post) {
 	resp, err := MI.Index("posts").Search(token, &meilisearch.SearchRequest{})
-	WTF(err)
+	ERR(err)
 	for _, h := range resp.Hits {
 		if m, ok := h.(map[string]interface{}); ok {
 			p := Post{

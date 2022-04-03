@@ -181,19 +181,17 @@ func parseData(num int) {
 }
 
 func initKV() {
+	BG = context.Background()
 	var posts []Post
 	tx := DB.MustBegin()
 	EC <- tx.Select(&posts, FetchAllPosts)
 	EC <- tx.Commit()
-	mset := make(map[string]string)
 	for _, p := range posts {
-		mset[p.Id.String()] = p.PackedField()
+		EC <- KV.RPush(BG, "pid", p.Id.String()).Err()
+		EC <- KV.RPush(BG, p.Id.String(), p.toArr()).Err()
 		QW.Add(1)
 		go p.initQRCode()
 	}
-
-	BG = context.Background()
-	EC <- KV.MSet(BG, mset).Err()
 }
 
 func UploadPic2Cos(src string, num int) string {

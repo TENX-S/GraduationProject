@@ -15,7 +15,7 @@ func GetSqlErrNum(err error) (num int) {
 }
 
 // Hey man, what's going on here?
-func WTF(err error) {
+func ERR(err error) {
 	if err != nil {
 		pc, filename, line, _ := runtime.Caller(1)
 		msg := fmt.Sprintf("[FATAL] [%s:%s:%d] [%v]", runtime.FuncForPC(pc).Name(), filename, line, err)

@@ -39,8 +39,8 @@ func (u *User) Login(email, pswd string) (res int) {
 		res = NONEXISTENT_USER
 		return
 	}
-	WTF(err)
-	WTF(tx.Commit())
+	ERR(err)
+	ERR(tx.Commit())
 	if getHash(pswd) == u.PswdHash {
 		return
 	} else {
@@ -53,11 +53,11 @@ func (u *User) SignUp(email, pswd string) (res int) {
 	u.New(email, pswd)
 	tx := DB.MustBegin()
 	_, err := tx.NamedExec(SignUpUser, u)
-	WTF(tx.Commit())
+	ERR(tx.Commit())
 	if GetSqlErrNum(err) == 1062 {
 		res = DUPLICATED_NAME
 		return
 	}
-	WTF(err)
+	ERR(err)
 	return
 }
