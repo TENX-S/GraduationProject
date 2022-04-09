@@ -1,4 +1,3 @@
-import 'package:flutter/services.dart';
 import 'package:grpc/grpc.dart';
 
 import '../models/user.dart';
@@ -7,8 +6,6 @@ import 'proto/post.pbgrpc.dart';
 
 const host = '1.116.216.141';
 const port = 8080;
-
-late ByteData certFile;
 
 class Client {
   late AuthenticateClient auth;
@@ -24,12 +21,10 @@ class Client {
     int port,
   ) {
     ClientChannel chan = ClientChannel(
-      '1.116.216.141',
+      host,
       port: port,
       options: ChannelOptions(
-        credentials: ChannelCredentials.secure(
-          certificates: certFile.buffer.asUint8List(),
-        ),
+        credentials: const ChannelCredentials.insecure(),
         codecRegistry: CodecRegistry(
           codecs: const [
             GzipCodec(),

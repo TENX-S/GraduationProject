@@ -5,17 +5,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
-import 'package:frontend/services/client.dart';
 
 import 'common/router.dart';
 import 'common/styles.dart';
 
-void main() async {
+void main() {
   var widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   SystemChrome.setPreferredOrientations(
       [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
-  certFile = await rootBundle.load('assets/tls/server.crt');
   runApp(const App());
 }
 
