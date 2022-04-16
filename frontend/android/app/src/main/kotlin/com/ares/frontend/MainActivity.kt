@@ -1,4 +1,4 @@
-package ares.zone.museum
+package com.ares.frontend
 
 import io.flutter.embedding.android.FlutterActivity
 

@@ -61,10 +61,6 @@ class _HomePageState extends State<HomePage> {
                 autoplay: true,
                 itemCount: 5,
                 pagination: const SwiperPagination(),
-                control: const SwiperControl(
-                  iconPrevious: IconData(0),
-                  iconNext: IconData(0),
-                ),
               ),
             ),
             SizedBox(
