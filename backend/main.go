@@ -2,6 +2,8 @@ package main
 
 import (
 	"net"
+	"os"
+	"runtime/trace"
 
 	. "github.com/TENX-S/backend/common"
 	"github.com/TENX-S/backend/model"
@@ -12,6 +14,14 @@ import (
 )
 
 func main() {
+	f, err := os.Create("trace.out")
+	ERR(err)
+	defer f.Close()
+
+	err = trace.Start(f)
+	ERR(err)
+	defer trace.Stop()
+
 	model.InitModel()
 	s := grpc.NewServer()
 	conn, err := net.Listen("tcp", E.LISTEN_ADDR)
